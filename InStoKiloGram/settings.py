@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'Diets',
     'FoodAndRecipes',
     'SocialNetwork',
+    'SocialNetwork.Messages',
+    'SocialNetwork.Wall',
     'Users',
     'Voting',
+    'Blog',
 ]
 
 MIDDLEWARE = [
