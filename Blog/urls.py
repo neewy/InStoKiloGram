@@ -22,3 +22,4 @@ if settings.DEBUG:
             document_root=settings.MEDIA_ROOT)
 
 urlpatterns += staticfiles_urlpatterns()
+
