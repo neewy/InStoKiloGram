@@ -123,4 +123,34 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+# media dir
+# http://zetblog.ru/programming/201303/django-static_root-staticfiles_dirs-media_root/
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'  # URL media
+
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # collectstatic
+
+STATIC_URL = '/static/'  # URL static
+
+
+STATICFILES_DIRS = (
+
+    os.path.join(BASE_DIR, 'assets'),
+
+)
+
+
+# Static files finder, first searches in STATICFILES_DIRS,
+
+# second in the app's directories
+
+STATICFILES_FINDERS = (
+
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+
+)
