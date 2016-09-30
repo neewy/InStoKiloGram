@@ -84,8 +84,12 @@ AUTH_USER_MODEL = 'Users.User'  # see http://stackoverflow.com/questions/3049597
 # TODO: add PostgreSQL connection
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ptckyqbu',
+        'USER': 'ptckyqbu',
+        'HOST': 'horton.elephantsql.com',
+        'PASSWORD': 'XcC85Fvd9VLX71I70tTeR2McZnTpBKzq',
+        'PORT': '5432',
     }
 }
 
