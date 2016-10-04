@@ -43,15 +43,17 @@ def customlogin(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
 
-            username = request.POST.get('username', False)
-            password = request.POST.get('password', False)
+            the_username = request.POST.get('username', False)
+            the_password = request.POST.get('password', False)
             
             if settings.DEBUG:
                 print >>sys.stderr, "Got login and password: "
                 print >>sys.stderr, pprint.pprint(form)
             
-            user = authenticate(username=username, password=password)
-            if user is not None:
+            user = User.objects.get(username=the_username)
+            
+            #user = authenticate(username=username, password=password)
+            if (user is not None) and (user.password == the_password):
                 login(request, user)
                 # Redirect to a success page.
                 return redirect('/')
