@@ -1,14 +1,19 @@
 {% extends 'foodandrecipes/base.html' %}
-
 {% block content %}
-    <form action="search/" method="get">
+    <form action="" method="get">
         <input type="text" name="q">
         <input type="submit" value="Search">
     </form>
-    {% for recipe in recipes %}
+    <p>You searched for: <strong>{{ query }}</strong></p>
+    {% if recipes %}
+    <p>Found {{ recipes|length }} recipe{{ recipes|pluralize }}.</p>
+        {% for recipe in recipes %}
         <div class="recipe">
             <h1><a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a></h1>
             <p><img src="{{recipe.image.url}}" alt="My image"/></p>
         </div>
-    {% endfor %}
+        {% endfor %}
+    {% else %}
+        <p>No recipe matched your search criteria.</p>
+    {% endif %}
 {% endblock content %}

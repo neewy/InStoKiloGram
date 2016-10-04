@@ -1,4 +1,5 @@
-from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.utils import timezone
 
 from FoodAndRecipes.forms import RecipeForm
@@ -43,3 +44,20 @@ def recipe_edit(request, pk):
     else:
         form = RecipeForm(instance=recipe)
     return render(request, 'foodandrecipes/recipe_edit.html', {'form': form})
+
+def search_form(request):
+    return render_to_response('foodandrecipes/search_form.html')
+
+def search(request):
+    if 'q' in request.GET and request.GET['q']:
+        q = request.GET['q']
+        recipes = Recipe.objects.filter(title=q)
+        print (recipes)
+        return render_to_response('foodandrecipes/search_results.html',
+            {'recipes': recipes, 'query': q})
+    else:
+        return HttpResponse('Please submit a search term.')
+
+def bad_search(request):
+    message = 'You searched for: %r' % request.GET['q']
+    return HttpResponse(message)
