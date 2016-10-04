@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<h1>You were authorized via Vkontakte</h1>
+
+<strong>{{first_name}} {{last_name}}</strong>, congratulations!
+
+<br />
+<img src="{{photo}}">
+
+<br />
+The picture in your profile is nice!
+
+
+{% endblock %}

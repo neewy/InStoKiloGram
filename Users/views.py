@@ -71,3 +71,15 @@ def customlogin(request):
     return render(request, 'registration/login.html', {'form' : form})
     
 
+
+def vklogin(request):
+    first_name = request.GET.get('first_name', False)
+    last_name  = request.GET.get('last_name', False)
+    photo = request.GET.get('photo', False)
+    
+    if settings.DEBUG:
+        print >>sys.stderr, "Got VK data: "
+        print >>sys.stderr, pprint.pprint(first_name)
+    
+    return render(request, 'registration/vklogin.html', {'first_name' : first_name, 'last_name' : last_name, 'photo' : photo})
+
