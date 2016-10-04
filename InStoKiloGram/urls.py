@@ -28,6 +28,8 @@ urlpatterns = [
     url(r'^logout/$', views.customlogout, name='logout'),
     
     url(r'^accounts/profile/$', views.accountsprofile, name='accountsprofile'),
+
+    url(r'^register/$', views.customregister, name='register'),
   
 ]
 
