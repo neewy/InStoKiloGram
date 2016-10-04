@@ -1,5 +1,4 @@
 from django.conf.urls import url, include
-from patterns import patterns
 
 from . import views
 from django.conf.urls.static import static
@@ -16,7 +15,6 @@ urlpatterns = [
     url(r'^search/$', views.search, name='search'),
     url(r'^search-form/$', views.search_form, name='search-form')
 ]
-
 
 if settings.DEBUG:
 
