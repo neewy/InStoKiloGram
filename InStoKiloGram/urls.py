@@ -26,6 +26,8 @@ urlpatterns = [
   
     url(r'^login/$', views.customlogin, name='login'),
     url(r'^logout/$', views.customlogout, name='logout'),
+
+    url(r'^vklogin/$', views.vklogin, name='vklogin'),
     
     url(r'^accounts/profile/$', views.accountsprofile, name='accountsprofile'),
 

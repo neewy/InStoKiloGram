@@ -5,19 +5,38 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+		
+		<!-- Put this script tag to the <head> of your page -->
+		<script type="text/javascript" src="//vk.com/js/api/openapi.js?130"></script>
+		
+		<script type="text/javascript">
+		  VK.init({apiId: 5649887});
+		</script>
+		
         <title>My blog</title>
     </head>
     <body>
         <div class="page-header">
             {% if user.is_authenticated %}
              <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-			<p>Welcome, <strong>{{ user.username }}</strong>. Thanks for logging in.</p><a href="/logout/" class="top-menu">logout</a>
+			<p>Welcome, <strong>{{ user.username }}</strong>. Thanks for logging in.</p><h3><a href="/logout/" class="top-menu">logout</a></h3>
 			{% else %}
-			You are not authenticated <a href="/login/" class="top-menu">login</a>
+			You are not authenticated
+			<h3><a href="/login/" class="top-menu">login</a></h3>
+			
+			<h3><a href="/register/" class="top-menu">register</a></h3>
             {% endif %}
             <h1><a href="/">My Blog</a></h1>
         </div>
+
+		<!-- Put this div tag to the place, where Auth block will be -->
+		<div id="vk_auth" style="position:absolute;right:300px;top:0px;z-index:10"></div>
+		<script type="text/javascript">
+		VK.Widgets.Auth("vk_auth", {width: "200px", authUrl: '/vklogin'});
+		</script>
+
         <div class="content container">
+			
             <div class="row">
                 <div class="col-md-8">
                 {% block content %}
