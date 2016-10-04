@@ -15,20 +15,21 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from Users import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('Blog.urls')),
     url(r'^users/', include('Users.urls')),
 
-    url(r'^login/$', views.customlogin, name='login'),
-    url(r'^logout/$', views.customlogout, name='logout'),
+    url(r'^login/$',views.customlogin, name='login'),
+    url(r'^logout/$',views.customlogout, name='logout'),
 
-    url(r'^vklogin/$', views.vklogin, name='vklogin'),
+    url(r'^vklogin/$',views.vklogin, name='vklogin'),
 
-    url(r'^accounts/profile/$', views.accountsprofile, name='accountsprofile'),
+    url(r'^accounts/profile/$',views.accountsprofile, name='accountsprofile'),
 
-    url(r'^register/$', views.customregister, name='register'),
+    url(r'^register/$',views.customregister, name='register'),
 
     url(r'^food/', include('FoodAndRecipes.urls')),
 ]
