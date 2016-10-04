@@ -1,0 +1,39 @@
+
+{% extends "blog/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Register for an account" %}{% endblock %}
+
+{% block content %}
+<h1>Registration</h1>
+
+{% if form.invalid == 1 %}
+<span style="color:red">Passwords are not the same!</span>
+{% endif %}
+
+{% if form.invalid == 2 %}
+<span style="color:red">User with the same username exists!Please, choose another username!</span>
+{% endif %}
+
+{% if form.invalid == 3 %}
+<span style="color:red">User with the same e-mail address exists!</span>
+{% endif %}
+
+<form method="post" action="">
+<dl class="register">
+    {% csrf_token %}
+    {% for field in form %}
+        <dt>{{ field.label_tag }}</dt>
+        <dd class="clearfix">{{ field }}
+        {% if field.help_text %}<div class="clearfix">{{ field.help_text }}</div>{% endif %}
+        {% if field.errors %}<div class="myerrors clearfix">{{ field.errors }}</div>{% endif %}
+        </dd>
+    {% endfor %}
+</dl>
+<input type="submit" value="Register" / class="clearfix">
+</form>
+
+
+{% endblock %}
+

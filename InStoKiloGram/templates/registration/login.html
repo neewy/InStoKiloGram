@@ -1,0 +1,33 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<h1>Authorization</h1>
+
+{% if user.is_authenticated %}
+{{ user.username }}, is that you? You are already authorized. 
+If you wish, you can <a href="/logout/">logout</a>.<br/><br/>
+{% else %}
+
+{% if form.invalid == 1 %}
+<span style="color:red">Invalid login</span>
+{% endif %}
+
+{% if form.invalid == 2 %}
+<span style="color:red">Inactive account</span>
+{% endif %}
+
+
+<form method="post" action="/login/">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<input type="submit" value="Enter" / class="clearfix">
+</form>
+    
+<script type="text/javascript">
+document.getElementById('username').focus();
+</script>
+
+{% endif %}
+{% endblock %}
