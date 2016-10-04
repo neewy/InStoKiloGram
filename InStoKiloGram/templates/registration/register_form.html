@@ -12,6 +12,14 @@
 <span style="color:red">Passwords are not the same!</span>
 {% endif %}
 
+{% if form.invalid == 2 %}
+<span style="color:red">User with the same username exists!Please, choose another username!</span>
+{% endif %}
+
+{% if form.invalid == 3 %}
+<span style="color:red">User with the same e-mail address exists!</span>
+{% endif %}
+
 <form method="post" action="">
 <dl class="register">
     {% csrf_token %}

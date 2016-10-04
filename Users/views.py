@@ -104,27 +104,30 @@ def customregister(request):
             if settings.DEBUG:
                 print >> sys.stderr, "Got login, email and password: "
                 print >> sys.stderr, pprint.pprint(formreg)
-
-            if password == password_repeat:
-                form = LoginForm(request.POST)
-                user = User(username=username, password=password, email=email)
-                user.save()
-
-                if user is not None:
-                    login(request, user)
-                    # Redirect to a success page.
-                    return redirect('/')
-                else:
-                    # Return an 'invalid login' error message.
-                    if 1:
-                        form.invalid = 1
-                    # User is inactive
-                    else:
-                        form.invalid = 2
+            if User.objects.filter(email=email).exists():
+                formreg.invalid = 3
             else:
-                formreg.invalid = 1
+                if User.objects.filter(username=username).exists():
+                    formreg.invalid = 2
+                else:
+                    if password == password_repeat:
+                        form = LoginForm(request.POST)
+                        user = User(username=username, password=password, email=email)
+                        user.save()
 
-                # Redirect to a success page.
+                        if user is not None:
+                            login(request, user)
+                            # Redirect to a success page.
+                            return redirect('/')
+                        else:
+                            # Return an 'invalid login' error message.
+                            if 1:
+                                form.invalid = 1
+                            # User is inactive
+                            else:
+                                form.invalid = 2
+                    else:
+                        formreg.invalid = 1
 
     else:
         formreg = RegisterForm()
