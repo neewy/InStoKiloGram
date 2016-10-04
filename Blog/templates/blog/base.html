@@ -11,6 +11,9 @@
         <div class="page-header">
             {% if user.is_authenticated %}
              <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+			<p>Welcome, <strong>{{ user.username }}</strong>. Thanks for logging in.</p><a href="/logout/" class="top-menu">logout</a>
+			{% else %}
+			You are not authenticated <a href="/login/" class="top-menu">login</a>
             {% endif %}
             <h1><a href="/">My Blog</a></h1>
         </div>

@@ -60,7 +60,8 @@ ROOT_URLCONF = 'InStoKiloGram.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'InStoKiloGram/templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -83,14 +84,24 @@ AUTH_USER_MODEL = 'Users.User'  # see http://stackoverflow.com/questions/3049597
 
 # TODO: add PostgreSQL connection
 DATABASES = {
+    #'default': {
+    #    'ENGINE': 'django.db.backends.postgresql',
+    #    'NAME': 'ptckyqbu',
+    #    'USER': 'ptckyqbu',
+    #    'HOST': 'horton.elephantsql.com',
+    #    'PASSWORD': 'XcC85Fvd9VLX71I70tTeR2McZnTpBKzq',
+    #    'PORT': '5432',
+    #}
+    
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ptckyqbu',
-        'USER': 'ptckyqbu',
-        'HOST': 'horton.elephantsql.com',
-        'PASSWORD': 'XcC85Fvd9VLX71I70tTeR2McZnTpBKzq',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'instdb',
+        'USER': 'insto',
+        'HOST': 'localhost',
+        'PASSWORD': 'qwerty',
         'PORT': '5432',
-    }
+    }    
+    
 }
 
 # Password validation
