@@ -13,7 +13,7 @@ from django.conf import settings
 import sys
 import pprint
 
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, AccountForm
 
 
 def index(request):
@@ -22,10 +22,6 @@ def index(request):
     output = '<br> '.join([u.username for u in latest_users])    
     resp = resp + "<br>" + output + "<hr>"
     return HttpResponse(resp)
-
-
-def accountsprofile(request):
-    return redirect('/')
 
 
 def customlogout(request):
@@ -135,3 +131,53 @@ def customregister(request):
         formreg = RegisterForm()
 
     return render(request, 'registration/register_form.html', {'form': formreg})
+
+
+def accountsprofile(request):
+    
+    if (not request.user.is_authenticated()):
+        return redirect('/')
+
+    current_user = request.user
+    
+    status = 0
+    
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = AccountForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+
+            the_firstname = request.POST.get('firstname', False)
+            the_lastname  = request.POST.get('lastname', False)
+            
+            if settings.DEBUG:
+                print >>sys.stderr, "Got data: "
+                print >>sys.stderr, pprint.pprint(form)
+            
+            try:
+                user = User.objects.get(username=current_user.username)
+                user.first_name=the_firstname
+                user.last_name=the_lastname
+                user.save()
+                status = 1
+
+                current_user = user
+            except Exception:
+                # Return an 'invalid login' error message.
+                status = 2
+
+    # if a GET (or any other method) we'll create a blank form
+        
+    data = {'firstname'  : current_user.first_name,
+            'lastname'   : current_user.last_name,
+            'email'      : current_user.email,
+            'username'   : current_user.username}        
+        
+    form = AccountForm(data)
+
+    return render(request, 'registration/profile.html', {'form' : form, 'status': status})
+
+
