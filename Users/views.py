@@ -51,20 +51,22 @@ def customlogin(request):
                 print >>sys.stderr, "Got login and password: "
                 print >>sys.stderr, pprint.pprint(form)
             
-            user = User.objects.get(username=the_username)
+            try:
+                user = User.objects.get(username=the_username)
 
-            #user = authenticate(username=username, password=password)
-            if (user is not None) and (user.password == the_password):
-                login(request, user)
-                # Redirect to a success page.
-                return redirect('/')
-            else:
-                # Return an 'invalid login' error message.
-                if 1:
-                    form.invalid = 1
-                # User is inactive
+                #user = authenticate(username=username, password=password)
+                if (user is not None) and (user.password == the_password):
+                    login(request, user)
+                    # Redirect to a success page.
+                    return redirect('/')
                 else:
+                    # Return an 'invalid password' error message.
                     form.invalid = 2
+                        
+            except Exception:
+                # Return an 'invalid login' error message.
+                form.invalid=1
+
 
 
     # if a GET (or any other method) we'll create a blank form
