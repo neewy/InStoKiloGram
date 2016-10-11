@@ -1,0 +1,39 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<h1>Profile for {{ form.data.username }} ({{ form.data.email }}) </h1>
+
+{% if status == 2 %}
+<span style="color:red">Error in form</span>
+{% endif %}
+
+{% if status == 1 %}
+<span style="color:green">Success</span>
+{% endif %}
+
+
+<form method="post" action="/accounts/profile/">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<input type="submit" value="Update info" / class="clearfix">
+</form>
+    
+<script type="text/javascript">
+document.getElementById('username').focus();
+</script>
+
+
+{% else %}
+
+<h1>Not authenticated</h1>
+
+In order to see your account profile you need to <a href="/login/">login</a>.<br/><br/>
+
+{% endif %}
+
+{% endblock %}
