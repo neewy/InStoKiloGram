@@ -53,10 +53,10 @@ def search(request):
         q = request.GET['q']
         recipes = Recipe.objects.filter(title__icontains=q).order_by('title')
         print (recipes)
-        return render_to_response('foodandrecipes/search_results.html',
+        return render(request, 'foodandrecipes/search_results.html',
             {'recipes': recipes, 'query': q})
     else:
-        return render_to_response('foodandrecipes/search_results.html')
+        return render(request, 'foodandrecipes/search_results.html')
 
 def bad_search(request):
     message = 'You searched for: %r' % request.GET['q']
