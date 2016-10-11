@@ -4,8 +4,8 @@
         <input type="text" name="q">
         <input type="submit" value="Search">
     </form>
-    <p>You searched for: <strong>{{ query }}</strong></p>
     {% if recipes %}
+    <p>You searched for: <strong>{{ query }}</strong></p>
     <p>Found {{ recipes|length }} recipe{{ recipes|pluralize }}.</p>
         {% for recipe in recipes %}
         <div class="recipe">

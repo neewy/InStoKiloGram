@@ -51,12 +51,12 @@ def search_form(request):
 def search(request):
     if 'q' in request.GET and request.GET['q']:
         q = request.GET['q']
-        recipes = Recipe.objects.filter(title=q)
+        recipes = Recipe.objects.filter(title__icontains=q).order_by('title')
         print (recipes)
         return render_to_response('foodandrecipes/search_results.html',
             {'recipes': recipes, 'query': q})
     else:
-        return HttpResponse('Please submit a search term.')
+        return render_to_response('foodandrecipes/search_results.html')
 
 def bad_search(request):
     message = 'You searched for: %r' % request.GET['q']
