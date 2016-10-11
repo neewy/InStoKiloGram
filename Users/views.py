@@ -178,6 +178,6 @@ def accountsprofile(request):
         
     form = AccountForm(data)
 
-    return render(request, 'registration/profile.html', {'form' : form, 'status': status})
+    return render(request, 'profile.html', {'form' : form, 'status': status})
 
 

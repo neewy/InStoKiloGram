@@ -20,3 +20,17 @@ class User(AbstractUser):
     user_type = models.CharField(max_length=2,
                                  choices=type_choices,
                                  default='A')
+
+class UserProfile(models.Model):
+    gender_choices = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )
+
+    gender = models.CharField(max_length=1,
+                              choices=gender_choices
+                              )
+
+    start_weight = models.DecimalField(max_digits=3,
+                                       decimal_places=2
+                                       )
