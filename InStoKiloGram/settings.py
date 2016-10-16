@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'compressor',
     'Diets',
     'FoodAndRecipes',
     'SocialNetwork',
@@ -84,15 +85,15 @@ AUTH_USER_MODEL = 'Users.User'  # see http://stackoverflow.com/questions/3049597
 
 # TODO: add PostgreSQL connection
 DATABASES = {
-    #'default': {
+    # 'default': {
     #    'ENGINE': 'django.db.backends.postgresql',
     #    'NAME': 'ptckyqbu',
     #    'USER': 'ptckyqbu',
     #    'HOST': 'horton.elephantsql.com',
     #    'PASSWORD': 'XcC85Fvd9VLX71I70tTeR2McZnTpBKzq',
     #    'PORT': '5432',
-    #}
-    
+    # }
+
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'instdb',
@@ -100,8 +101,8 @@ DATABASES = {
         'HOST': 'localhost',
         'PASSWORD': 'qwerty',
         'PORT': '5432',
-    }    
-    
+    }
+
 }
 
 # Password validation
@@ -145,18 +146,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'  # URL media
 
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # collectstatic
 
 STATIC_URL = '/static/'  # URL static
 
-
 STATICFILES_DIRS = (
-
     os.path.join(BASE_DIR, 'assets'),
-
 )
-
 
 # Static files finder, first searches in STATICFILES_DIRS,
 
@@ -168,5 +164,9 @@ STATICFILES_FINDERS = (
 
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 
+    'compressor.finders.CompressorFinder',
 )
 
+COMPRESS_PRECOMPILERS = (
+    ('text/less', 'lessc {infile} {outfile}'),
+)

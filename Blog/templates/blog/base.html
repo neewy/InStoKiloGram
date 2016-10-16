@@ -1,53 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load compress %}
 {% load staticfiles %}
-<html>
-    <head>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
-		
-		<!-- Put this script tag to the <head> of your page -->
-		<script type="text/javascript" src="//vk.com/js/api/openapi.js?130"></script>
-		
-		<script type="text/javascript">
-		  VK.init({apiId: 5649887});
-		</script>
-		
-        <title>My blog</title>
-    </head>
-    <body>
-        <div class="page-header">
-            {% if user.is_authenticated %}
-             <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-			<p>Welcome, <strong>{{ user.username }}</strong>. Thanks for logging in.</p>
-			
-			<h3><a href="/logout/" class="top-menu">logout</a></h3>
-			<h3><a href="/accounts/profile/" class="top-menu">profile</a></h3>
-			
-			{% else %}
-			You are not authenticated
-			<h3><a href="/login/" class="top-menu">login</a></h3>
-			
-			<h3><a href="/register/" class="top-menu">register</a></h3>
-            {% endif %}
-            <h3><a href="/food/" class="top-menu">Food</a></h3>
-            <h1><a href="/">My Blog</a></h1>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+
+    {% compress css %}
+        <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/theme.less' %}"/>
+    {% endcompress %}
+
+    <!-- Put this script tag to the <head> of your page -->
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?130"></script>
+
+    <script type="text/javascript">
+        VK.init({apiId: 5649887});
+    </script>
+
+    <title>My blog</title>
+    <title>Title</title>
+</head>
+<body>
+<div class="header row no-margin-sides">
+    <div class="logo-and-search col-md-12">
+        <div id="top-logo" class="col-lg-4 col-lg-offset-1 col-md-6 col-sm-6 col-xs-12">
+            <img class="img-responsive" src="{% static 'img/logo.png' %}">
         </div>
-
-		<!-- Put this div tag to the place, where Auth block will be -->
-		<div id="vk_auth" style="position:absolute;right:400px;top:0px;z-index:10"></div>
-		<script type="text/javascript">
-		VK.Widgets.Auth("vk_auth", {width: "200px", authUrl: '/vklogin'});
-		</script>
-
-        <div class="content container">
-			
-            <div class="row">
-                <div class="col-md-8">
-                {% block content %}
-                {% endblock %}
-                </div>
+        <div class="col-md-3 col-sm-3 col-lg-pull-1 pull-right" id="header-search-input">
+            <div class="input-group col-md-12">
+                <input type="text" class="form-control input-lg" placeholder="Search…"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-info btn-lg" type="button">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </span>
             </div>
         </div>
-    </body>
+    </div>
+    <div class="top-navigation navbar col-md-12">
+        <div class="col-lg-offset-1 col-md-4 container-fluid">
+            <ul class="nav navbar-nav" id="top-items-menu">
+                <li class="active">
+                    <a href="/">Blog</a>
+                </li>
+                <li>
+                    <a href="/food/">Diets</a>
+                </li>
+                <li>
+                    <a href="/food/">Food & Recipes</a>
+                </li>
+                <li>
+                    <a href="/food/">Fitness</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-2 pull-right" id="login-button">
+            <ul class="nav navbar-nav" id="top-items-menu">
+            {% if user.is_authenticated %}
+                <li class="active">
+                <a href="/logout/" class="top-menu">Logout</a>
+                </li>
+                <li>
+                <a href="/accounts/profile/" class="top-menu">Profile</a>
+                </li>
+            {% else %}
+                <li>
+                <a href="/login/" class="top-menu">Login</a>
+                </li>
+                <li>
+                <a href="/register/" class="top-menu">Register</a>
+                </li>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Put this div tag to the place, where Auth block will be -->
+{% comment %}<div id="vk_auth" style="position:absolute;right:400px;top:0px;z-index:10"></div>
+<script type="text/javascript">
+    VK.Widgets.Auth("vk_auth", {width: "200px", authUrl: '/vklogin'});
+</script>{% endcomment %}
+
+<div class="content container">
+
+    <div class="row">
+        <div class="col-md-8">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+<div class="page-footer">
+</div>
+</body>
 </html>

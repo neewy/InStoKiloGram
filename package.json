@@ -1,0 +1,23 @@
+{
+  "name": "instokilogram",
+  "version": "1.0.0",
+  "description": "[![Group 2.png](https://s10.postimg.org/lutqstuwp/Group_2.png)](https://postimg.org/image/gw68ear3p/)",
+  "main": "index.js",
+  "dependencies": {
+    "less": "^2.7.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neewy/InStoKiloGram.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neewy/InStoKiloGram/issues"
+  },
+  "homepage": "https://github.com/neewy/InStoKiloGram#readme"
+}

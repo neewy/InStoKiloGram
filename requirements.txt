@@ -1,3 +1,4 @@
 Django==1.10.1
 psycopg2
-django-static-precompiler
+django-npm
+django-compressor
