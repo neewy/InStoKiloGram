@@ -55,6 +55,7 @@
                     </form>
                 </div>
             </div>
+            <a href="/vklogin/"><img src="{% static 'img/vklogin.png' %}"></a>
         </div>
         <div class="top-navigation navbar col-md-12">
             <div class="col-lg-offset-1 col-md-4 container-fluid">
@@ -76,18 +77,18 @@
             <div class="col-md-2 pull-right col-lg-pull-1" id="login-button">
                 <ul class="nav navbar-nav" id="top-items-menu">
                     {% if user.is_authenticated %}
+                        <li>
+                            <a href="/accounts/profile/" class="top-menu">Profile (<strong>{{ user.get_username }}</strong>)  </a>
+                        </li>
                         <li class="active">
                             <a href="/logout/" class="top-menu">Logout</a>
                         </li>
-                        <li>
-                            <a href="/accounts/profile/" class="top-menu">Profile</a>
-                        </li>
                     {% else %}
                         <li>
-                            <a href="/login/" class="top-menu">Login</a>
+                            <a href="/register/" class="top-menu">Register</a>
                         </li>
                         <li>
-                            <a href="/register/" class="top-menu">Register</a>
+                            <a href="/login/" class="top-menu">Login</a>
                         </li>
                     {% endif %}
                 </ul>
