@@ -1,0 +1,31 @@
+@screen-sm-min: 768px;
+@path-fonts: '../fonts';
+
+@font-face {
+  font-family: 'DIN Alternate';
+  src: url('@{path-fonts}/din.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.applyDinFont() {
+  font-family: 'DIN Alternate', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.applySans() {
+  font-family: 'PT Sans', sans-serif;
+}
+
+.applySansCaption() {
+  font-family: 'PT Sans Caption', sans-serif;
+}
+
+.vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(50%);
+  -ms-transform: translateY(50%);
+  transform: translateY(50%);
+}

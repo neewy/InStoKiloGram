@@ -6,10 +6,14 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans|PT+Sans+Caption" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
 
     {% compress css %}
         <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/theme.less' %}"/>
+        <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/header.less' %}"/>
+        <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/blog.less' %}"/>
+        <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/footer.less' %}"/>
     {% endcompress %}
 
     <!-- Put this script tag to the <head> of your page -->
@@ -23,60 +27,67 @@
     <title>Title</title>
 </head>
 <body>
-<div class="header row no-margin-sides">
-    <div class="logo-and-search col-md-12">
-        <div id="top-logo" class="col-lg-4 col-lg-offset-1 col-md-6 col-sm-6 col-xs-12">
-            <img class="img-responsive" src="{% static 'img/logo.png' %}">
-        </div>
-        <div class="col-md-3 col-sm-3 col-lg-pull-1 pull-right" id="header-search-input">
-            <div class="input-group col-md-12">
-                <input type="text" class="form-control input-lg" placeholder="Search…"/>
-                <span class="input-group-btn">
-                    <button class="btn btn-info btn-lg" type="button">
+
+
+{% block header %}
+    <div class="header row no-margin-sides">
+        <div class="logo-and-search col-md-12">
+            <div id="top-logo" class="col-lg-4 col-lg-offset-1 col-md-6 col-sm-6 col-xs-12">
+                <img class="img-responsive" src="{% static 'img/logo.png' %}">
+            </div>
+            <div class="col-md-3 col-sm-3 col-lg-pull-1 pull-right" id="header-search-input">
+                <div>
+                    <form class="input-group col-md-12" action="search/" method="get">
+                        <input type="text" class="form-control input-lg" placeholder="Search…"/>
+                        <span class="input-group-btn">
+                    <button class="btn btn-info btn-lg" type="submit">
                         <i class="glyphicon glyphicon-search"></i>
                     </button>
                 </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="top-navigation navbar col-md-12">
+            <div class="col-lg-offset-1 col-md-4 container-fluid">
+                <ul class="nav navbar-nav" id="top-items-menu">
+                    <li class="active">
+                        <a href="/">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/food/">Diets</a>
+                    </li>
+                    <li>
+                        <a href="/food/">Food & Recipes</a>
+                    </li>
+                    <li>
+                        <a href="/food/">Fitness</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-2 pull-right col-lg-pull-1" id="login-button">
+                <ul class="nav navbar-nav" id="top-items-menu">
+                    {% if user.is_authenticated %}
+                        <li class="active">
+                            <a href="/logout/" class="top-menu">Logout</a>
+                        </li>
+                        <li>
+                            <a href="/accounts/profile/" class="top-menu">Profile</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="/login/" class="top-menu">Login</a>
+                        </li>
+                        <li>
+                            <a href="/register/" class="top-menu">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
     </div>
-    <div class="top-navigation navbar col-md-12">
-        <div class="col-lg-offset-1 col-md-4 container-fluid">
-            <ul class="nav navbar-nav" id="top-items-menu">
-                <li class="active">
-                    <a href="/">Blog</a>
-                </li>
-                <li>
-                    <a href="/food/">Diets</a>
-                </li>
-                <li>
-                    <a href="/food/">Food & Recipes</a>
-                </li>
-                <li>
-                    <a href="/food/">Fitness</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-2 pull-right" id="login-button">
-            <ul class="nav navbar-nav" id="top-items-menu">
-            {% if user.is_authenticated %}
-                <li class="active">
-                <a href="/logout/" class="top-menu">Logout</a>
-                </li>
-                <li>
-                <a href="/accounts/profile/" class="top-menu">Profile</a>
-                </li>
-            {% else %}
-                <li>
-                <a href="/login/" class="top-menu">Login</a>
-                </li>
-                <li>
-                <a href="/register/" class="top-menu">Register</a>
-                </li>
-            {% endif %}
-            </ul>
-        </div>
-    </div>
-</div>
+{% endblock %}
+
 <!-- Put this div tag to the place, where Auth block will be -->
 {% comment %}<div id="vk_auth" style="position:absolute;right:400px;top:0px;z-index:10"></div>
 <script type="text/javascript">
@@ -86,13 +97,51 @@
 <div class="content container">
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             {% block content %}
             {% endblock %}
         </div>
     </div>
 </div>
-<div class="page-footer">
-</div>
+
+{% block footer %}
+    <div class="page-footer container-fluid">
+        <div class="row">
+            <div class="col-lg-push-1 col-md-4">
+                <div id="footer-name">
+                    InstoKilogram
+                </div>
+                <div id="footer-slogan">
+                    the app that makes you work hard
+                </div>
+            </div>
+            <div class="col-lg-pull-1 pull-right col-md-4">
+                <nav id="footer-nav">
+                    <ul>
+                        <li class="active">
+                            <a href="/">Blog</a>
+                        </li>
+                        <li>
+                            <a href="/food/">Diets</a>
+                        </li>
+                        <li>
+                            <a href="/food/">Food & Recipes</a>
+                        </li>
+                        <li>
+                            <a href="/food/">Fitness</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="social-icons">
+                    <a href="#"><img src="{% static 'img/Twitter-color.png' %}"></a>
+                    <a href="#"><img src="{% static 'img/Instagram-color.png' %}"></a>
+                    <a href="#"><img src="{% static 'img/Facebook-color.png' %}"></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
 </body>
 </html>

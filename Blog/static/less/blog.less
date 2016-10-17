@@ -1,0 +1,43 @@
+@import "variables";
+
+.slider-wrapper {
+  height: 380px;
+  border: 1px dashed #2a6496;
+}
+
+.blog-title a {
+  .applySansCaption();
+  font-weight: bold;
+  color: #4C4C4C;
+  font-size: 34px;
+}
+
+.post-tags {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  margin: 20px 0;
+
+  .post-tag {
+
+    margin-right: 10px;
+    background-color: #999999;
+
+    a {
+      color: white;
+      padding: 5px;
+    }
+  }
+}
+
+.post-thumbnail, .post-lead {
+  padding-left: 0;
+}
+
+ul.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

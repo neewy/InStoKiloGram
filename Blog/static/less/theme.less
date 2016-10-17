@@ -1,99 +1,11 @@
-@screen-sm-min: 768px;
-@path-fonts: '../fonts';
+html {
+  position: relative;
+  min-height: 100%;
+}
 
 body {
-  &:before {
-    content: none;
-  }
 
-  &:after {
-    content: none;
-  }
-}
-
-@font-face {
-  font-family: 'DIN Alternate';
-  src: url('@{path-fonts}/din.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-.applyDinFont() {
-  font-family: 'DIN Alternate', "DIN Condensed", sans-serif;
-  font-weight: normal;
-  font-style: normal;
-}
-
-.header {
-}
-
-.vertical-align {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(50%);
-  -ms-transform: translateY(50%);
-  transform: translateY(50%);
-}
-
-.logo-and-search {
-  min-height: 170px;
-  background: #E8E8E8;
-  padding-top: 20px;
-  @media (max-width: @screen-sm-min) {
-    min-height: 250px;
-  }
-}
-
-#top-logo img {
-  max-height: 130px;
-}
-
-.no-margin-sides {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-#header-search-input {
-  @media (min-width: @screen-sm-min) {
-    .vertical-align();
-  }
-  @media (max-width: @screen-sm-min) {
-    margin-top: 25px;
-  }
-  padding: 3px;
-  border: solid 1px #E4E4E4;
-  border-radius: 6px;
-  background-color: #fff;
-}
-
-#header-search-input input {
-  border: 0;
-  box-shadow: none;
-}
-
-#header-search-input button {
-  margin: 2px 0 0 0;
-  background: none;
-  box-shadow: none;
-  border: 0;
-  color: #666666;
-  padding: 0 8px 0 10px;
-  border-left: solid 1px #ccc;
-}
-
-#header-search-input button:hover {
-  border: 0;
-  box-shadow: none;
-  border-left: solid 1px #ccc;
-}
-
-#header-search-input .glyphicon-search {
-  font-size: 23px;
-}
-
-.top-navigation {
-  background-color: #D0D0D0;
-  border-radius: 0;
+  margin-bottom: 200px;
 
   &:before {
     content: none;
@@ -102,46 +14,4 @@ body {
   &:after {
     content: none;
   }
-
-  .navbar-nav {
-    height: 50px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: baseline;
-
-    &:before {
-      content: none;
-    }
-
-    &:after {
-      content: none;
-    }
-
-    li {
-      .applyDinFont();
-      font-size: 22px;
-      height: 50px;
-
-      a {
-        padding: 0;
-        margin-top: 14px;
-        color: #444444;
-
-        &:hover {
-          /*bootstrap style override*/
-          background-color: transparent;
-          color: #444444;
-        }
-      }
-
-      &:hover {
-        border-bottom: 0.2em solid #2c1064;
-        transition: .3s ease-in-out;
-      }
-    }
-  }
 }
-
-
