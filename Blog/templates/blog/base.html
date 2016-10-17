@@ -9,12 +9,20 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Sans|PT+Sans+Caption" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
 
-    {% compress css %}
+    {% if debug %}
         <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/theme.less' %}"/>
         <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/header.less' %}"/>
         <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/blog.less' %}"/>
         <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/footer.less' %}"/>
-    {% endcompress %}
+        <script src="{% static 'js/less.min.js' %}" type="text/javascript"></script>
+    {% else %}
+        {% compress css %}
+            <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/theme.less' %}"/>
+            <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/header.less' %}"/>
+            <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/blog.less' %}"/>
+            <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/footer.less' %}"/>
+        {% endcompress %}
+    {% endif %}
 
     <!-- Put this script tag to the <head> of your page -->
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?130"></script>

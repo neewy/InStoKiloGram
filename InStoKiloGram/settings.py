@@ -170,3 +170,5 @@ STATICFILES_FINDERS = (
 COMPRESS_PRECOMPILERS = (
     ('text/less', 'lessc {infile} {outfile}'),
 )
+
+INTERNAL_IPS = ('127.0.0.1',)
