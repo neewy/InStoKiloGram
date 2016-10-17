@@ -10,6 +10,8 @@
         <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaksbr }}</p>
-        <img src="{{post.image.url}}" alt="My image"/>
+        {% if post.image == None%}
+            <img src="{{post.image.url}}" alt="My image"/>
+        {% endif %}
     </div>
 {% endblock %}
