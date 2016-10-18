@@ -45,8 +45,8 @@
             </div>
             <div class="col-md-3 col-sm-3 col-lg-pull-1 pull-right" id="header-search-input">
                 <div>
-                    <form class="input-group col-md-12" action="search/" method="get">
-                        <input type="text" class="form-control input-lg" placeholder="Search…"/>
+                    <form class="input-group col-md-12" action="/food/search/" method="get">
+                        <input type="text" name="q" class="form-control input-lg" placeholder="Search…"/>
                         <span class="input-group-btn">
                     <button class="btn btn-info btn-lg" type="submit">
                         <i class="glyphicon glyphicon-search"></i>
@@ -55,7 +55,13 @@
                     </form>
                 </div>
             </div>
-            <a href="/vkoauth/"><img src="{% static 'img/vklogin.png' %}"></a>
+            {% if user.is_authenticated %}
+                        {% if user.photourl %}
+                            <img src="{{ user.photourl }}">
+                        {% endif %}
+            {% else %}
+                        <a href="/vkoauth/"><img src="{% static 'img/vklogin.png' %}"></a>
+            {% endif %}
         </div>
         <div class="top-navigation navbar col-md-12">
             <div class="col-lg-offset-1 col-md-4 container-fluid">

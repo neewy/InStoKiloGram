@@ -20,6 +20,9 @@ class User(AbstractUser):
                                  choices=type_choices,
                                  default='A')
 
+    vkid = models.BigIntegerField( default = 0 )
+    photourl = models.CharField(max_length=500, default="")
+
 
 
     gender_choices = (
