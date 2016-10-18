@@ -248,7 +248,7 @@ def vkoauthcb(request):
                 print >>sys.stderr, "Creating new user"
                 print >>sys.stderr, pprint.pprint( user )
                 
-                password = str(uuid.uuid4().get_hex().upper()[0:6])
+                password = str(uuid.uuid4().get_hex().upper()[0:16])
                 user = User( username = username, password = password, email = email, first_name = profile['first_name'], last_name = profile['last_name'] )
                 user.nickname = username
                 user.vkid = user_id
