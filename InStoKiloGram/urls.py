@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^accounts/profile/$',views.accountsprofile, name='accountsprofile'),
     url(r'^register/$',views.customregister, name='register'),
     url(r'^food/', include('FoodAndRecipes.urls')),
+    url(r'^foods/', include('Food.urls')),
 ]

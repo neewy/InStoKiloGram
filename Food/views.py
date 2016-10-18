@@ -19,7 +19,6 @@ def food_new(request):
         if form.is_valid():
             food = form.save(commit=False)
             food.name = request.user
-            food.image = form.cleaned_data['image']
             food.save()
             return redirect('food_detail', pk=food.pk)
     else:
@@ -34,7 +33,6 @@ def food_edit(request, pk):
         if form.is_valid():
             food = form.save(commit=False)
             food.name = request.user
-            food.image = form.cleaned_data['image']
             food.save()
             return redirect('food_detail', pk=food.pk)
     else:

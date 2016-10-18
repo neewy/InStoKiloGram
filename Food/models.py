@@ -7,7 +7,6 @@ class Food(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     calories = models.IntegerField()
-    image = models.ImageField(upload_to='pic_folder/')
 
     def publish(self):
         self.save()

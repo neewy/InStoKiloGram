@@ -1,10 +1,6 @@
 {% extends 'food/base.html' %}
 
 {% block content %}
-    <form action="search/" method="get">
-        <input type="text" name="q">
-        <input type="submit" value="Search">
-    </form>
     {% for food in food %}
         <div class="recipe">
             <h1><a href="{% url 'food_detail' pk=food.pk %}">{{ food.name }}</a></h1>

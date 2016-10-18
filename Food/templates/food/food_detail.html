@@ -3,7 +3,7 @@
 {% block content %}
     <div class="recipe">
         <h1>{{ food.name }}</h1>
-        <h1>Food:</h1>
         <p>{{ food.description|linebreaksbr }}</p>
+        <p>Calories: {{ food.calories}}</p>
     </div>
 {% endblock %}
