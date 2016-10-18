@@ -3,3 +3,4 @@ psycopg2
 django-npm
 django-compressor
 py-pretty
+vkontakte

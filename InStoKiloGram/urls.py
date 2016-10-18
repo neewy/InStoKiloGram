@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^login/$',views.customlogin, name='login'),
     url(r'^logout/$',views.customlogout, name='logout'),
     url(r'^vklogin/$',views.vklogin, name='vklogin'),
+    url(r'^vkoauth/$',views.vkoauth, name='vkoauth'),
+    url(r'^vkoauthcb/$',views.vkoauthcb, name='vkoauthcb'),
     url(r'^accounts/profile/$',views.accountsprofile, name='accountsprofile'),
     url(r'^register/$',views.customregister, name='register'),
     url(r'^food/', include('FoodAndRecipes.urls')),

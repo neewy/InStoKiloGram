@@ -12,6 +12,9 @@ from django.conf import settings
 
 import sys
 import pprint
+import urllib
+import vkontakte
+import json
 
 from .forms import LoginForm, RegisterForm, AccountForm
 
@@ -71,19 +74,6 @@ def customlogin(request):
 
     return render(request, 'registration/login.html', {'form' : form})
     
-
-
-def vklogin(request):
-    first_name = request.GET.get('first_name', False)
-    last_name  = request.GET.get('last_name', False)
-    photo = request.GET.get('photo', False)
-
-    if settings.DEBUG:
-        print >>sys.stderr, "Got VK data: "
-        print >>sys.stderr, pprint.pprint(first_name)
-
-    return render(request, 'registration/vklogin.html', {'first_name' : first_name, 'last_name' : last_name, 'photo' : photo})
-
 def customregister(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -179,5 +169,92 @@ def accountsprofile(request):
     form = AccountForm(data)
 
     return render(request, 'registration/profile.html', {'form' : form, 'status': status})
+
+def vklogin_widget(request):
+    first_name = request.GET.get('first_name', False)
+    last_name  = request.GET.get('last_name', False)
+    photo = request.GET.get('photo', False)
+
+    if settings.DEBUG:
+        print >>sys.stderr, "Got VK data: "
+        print >>sys.stderr, pprint.pprint(first_name)
+
+    return render(request, 'registration/vklogin.html', {'first_name' : first_name, 'last_name' : last_name, 'photo' : photo})
+
+
+
+def vkoauth(request):
+    redirect_url = settings.VK_REDIR
+
+    auth_url = "https://oauth.vk.com/authorize?client_id=" + str(settings.VK_CLIENT_ID) + "&scope=" + settings.VK_SCOPE
+    auth_url = auth_url + "&redirect_uri=" + urllib.pathname2url(redirect_url)
+    auth_url = auth_url + "&display=page&v=5.9&response_type=code"
+
+    if settings.DEBUG:
+        print >>sys.stderr, "Auth URL: "
+        print >>sys.stderr, pprint.pprint(auth_url)
+
+    return redirect(auth_url)
+
+def vkoauthcb(request):
+    code  = request.GET.get('code', False)
+    error_description = request.GET.get('error_description')
+
+    if (not code) or (error_description):
+        return redirect('/vklogin/?error_description=' + error_description);
+
+    if settings.DEBUG:
+        print >>sys.stderr, "Auth code: "
+        print >>sys.stderr, pprint.pprint(code)
+
+    redirect_url = settings.VK_REDIR
+    
+    auth_url = "https://oauth.vk.com/access_token?client_id=" + str(settings.VK_CLIENT_ID) + "&scope=" + settings.VK_SCOPE
+    auth_url = auth_url + "&client_secret=" + str(settings.VK_CLIENT_SECRET)
+    auth_url = auth_url + "&redirect_uri=" + urllib.pathname2url(redirect_url)
+    auth_url = auth_url + "&code=" + str(code)
+
+    if settings.DEBUG:
+        print >>sys.stderr, "Auth url: "
+        print >>sys.stderr, pprint.pprint(auth_url)
+
+    response = urllib.urlopen(auth_url)
+    data = json.loads(response.read())
+
+    access_token = data.get('access_token')
+    user_id = data.get('user_id')
+
+    if settings.DEBUG:
+        print >>sys.stderr, "Data: "
+        print >>sys.stderr, pprint.pprint( data )
+
+    return redirect('/vklogin/?access_token=' + access_token + '&user_id=' + str(user_id));
+
+
+
+def vklogin(request):
+    error_description = request.GET.get('error_description')
+    first_name = request.GET.get('first_name', False)
+    last_name  = request.GET.get('last_name', False)
+    photo = request.GET.get('photo', False)
+
+    access_token = request.GET.get('access_token', False)
+    user_id = request.GET.get('user_id', False)
+
+    if access_token and user_id:
+        vk = vkontakte.API(token=access_token)
+        profiles = vk.getProfiles(uids=str(user_id), fields='photo_100')
+        profile = profiles[0]
+        print >>sys.stderr, pprint.pprint( profile )
+        data = {'raw_fields' : pprint.pprint( profile ),
+                'first_name': profile['first_name'],
+                'last_name': profile['last_name'],
+                'photo' : profile['photo_100'] }
+    else:
+        error_description = error_description or 'no data'
+        data = {'error_description' : error_description}
+
+    return render(request, 'registration/vklogin.html', data)
+
 
 
