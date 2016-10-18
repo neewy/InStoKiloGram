@@ -221,6 +221,11 @@ def vkoauthcb(request):
     email = data.get('email')
 
     if access_token and user_id:
+
+        if not email:
+            data = {'error_description' : "This VK user does not have an email"}
+            return render(request, 'registration/vklogin.html', data)
+        
         vk = vkontakte.API(token=access_token)
         profiles = vk.getProfiles(uids=str(user_id), fields='photo_100,nickname')
         profile = profiles[0]
