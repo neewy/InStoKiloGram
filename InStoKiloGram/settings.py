@@ -63,7 +63,7 @@ DOMAIN = 'http://dev.moo-moo.ru'
 VK_REDIR = DOMAIN + '/vkoauthcb/'
 VK_CLIENT_ID = 5649887
 VK_CLIENT_SECRET ="SDICawCniimzVWAHGXhM"
-VK_SCOPE = "profile"
+VK_SCOPE = "profile,email"
 
 TEMPLATES = [
     {

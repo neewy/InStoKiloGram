@@ -10,11 +10,15 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.conf import settings
 
+import string
+import random
+import uuid
 import sys
 import pprint
 import urllib
 import vkontakte
 import json
+import re
 
 from .forms import LoginForm, RegisterForm, AccountForm
 
@@ -182,7 +186,6 @@ def vklogin_widget(request):
     return render(request, 'registration/vklogin.html', {'first_name' : first_name, 'last_name' : last_name, 'photo' : photo})
 
 
-
 def vkoauth(request):
     redirect_url = settings.VK_REDIR
 
@@ -203,10 +206,6 @@ def vkoauthcb(request):
     if (not code) or (error_description):
         return redirect('/vklogin/?error_description=' + error_description);
 
-    if settings.DEBUG:
-        print >>sys.stderr, "Auth code: "
-        print >>sys.stderr, pprint.pprint(code)
-
     redirect_url = settings.VK_REDIR
     
     auth_url = "https://oauth.vk.com/access_token?client_id=" + str(settings.VK_CLIENT_ID) + "&scope=" + settings.VK_SCOPE
@@ -214,47 +213,57 @@ def vkoauthcb(request):
     auth_url = auth_url + "&redirect_uri=" + urllib.pathname2url(redirect_url)
     auth_url = auth_url + "&code=" + str(code)
 
-    if settings.DEBUG:
-        print >>sys.stderr, "Auth url: "
-        print >>sys.stderr, pprint.pprint(auth_url)
-
     response = urllib.urlopen(auth_url)
     data = json.loads(response.read())
 
     access_token = data.get('access_token')
     user_id = data.get('user_id')
-
-    if settings.DEBUG:
-        print >>sys.stderr, "Data: "
-        print >>sys.stderr, pprint.pprint( data )
-
-    return redirect('/vklogin/?access_token=' + access_token + '&user_id=' + str(user_id));
-
-
-
-def vklogin(request):
-    error_description = request.GET.get('error_description')
-    first_name = request.GET.get('first_name', False)
-    last_name  = request.GET.get('last_name', False)
-    photo = request.GET.get('photo', False)
-
-    access_token = request.GET.get('access_token', False)
-    user_id = request.GET.get('user_id', False)
+    email = data.get('email')
 
     if access_token and user_id:
         vk = vkontakte.API(token=access_token)
-        profiles = vk.getProfiles(uids=str(user_id), fields='photo_100')
+        profiles = vk.getProfiles(uids=str(user_id), fields='photo_100,nickname')
         profile = profiles[0]
-        print >>sys.stderr, pprint.pprint( profile )
-        data = {'raw_fields' : pprint.pprint( profile ),
-                'first_name': profile['first_name'],
-                'last_name': profile['last_name'],
-                'photo' : profile['photo_100'] }
+        existing = 0
+        user = 0
+
+        try:
+            # User already exists
+            user = User.objects.get(email = email, vkid = user_id)
+            print >>sys.stderr, "User exists"
+            if user is not None:
+                existing = 1
+        except Exception:
+            existing = 0
+            
+        if (not existing):
+            try:
+                m = re.match(r"(.+)\@", email)
+                username = m.group(1)
+                print >>sys.stderr, "Creating new user"
+                print >>sys.stderr, pprint.pprint( user )
+                
+                password = str(uuid.uuid4().get_hex().upper()[0:6])
+                user = User( username = username, password = password, email = email, first_name = profile['first_name'], last_name = profile['last_name'] )
+                user.nickname = username
+                user.vkid = user_id
+                user.photourl = profile['photo_100']
+                user.save()
+            except Exception:
+                error_description = "Cannot create new user"
+
+        if (user and user is not None):
+            login(request, user)
+
+        return redirect('/')
+
     else:
         error_description = error_description or 'no data'
         data = {'error_description' : error_description}
+        return render(request, 'registration/vklogin.html', data)
 
+def vklogin(request):
+    error_description = 'Cannot login via Vkontakte'
+    data = {'error_description' : error_description}
     return render(request, 'registration/vklogin.html', data)
-
-
 
