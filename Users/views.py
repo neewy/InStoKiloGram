@@ -1,3 +1,4 @@
+from django.db.models import DateField
 from django.shortcuts import render
 
 # Create your views here.
@@ -124,14 +125,14 @@ def customregister(request):
 
 
 def accountsprofile(request):
-    
     if (not request.user.is_authenticated()):
         return redirect('/')
 
     current_user = request.user
-    
+    # current_profile = request.userprofile
+
     status = 0
-    
+
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -141,17 +142,34 @@ def accountsprofile(request):
             # process the data in form.cleaned_data as required
 
             the_firstname = request.POST.get('firstname', False)
-            the_lastname  = request.POST.get('lastname', False)
-            
+            the_lastname = request.POST.get('lastname', False)
+            gender = request.POST.get('gender', False)
+            start_weight = request.POST.get('start_weight', False)
+            height = request.POST.get('height', False)
+            birth_date = form.cleaned_data.get('birth_date', False)
+            activity_level = request.POST.get('activity_level', False)
+            diet_goals = request.POST.get('diet_goals', False)
+            goal_weight = request.POST.get('goal_weight', False)
+
             if settings.DEBUG:
-                print >>sys.stderr, "Got data: "
-                print >>sys.stderr, pprint.pprint(form)
-            
+                print >> sys.stderr, "Got data: "
+                print >> sys.stderr, pprint.pprint(form)
+
             try:
                 user = User.objects.get(username=current_user.username)
-                user.first_name=the_firstname
-                user.last_name=the_lastname
+                user.first_name = the_firstname
+                user.last_name = the_lastname
+                user.gender = gender
+                user.start_weight = start_weight
+                user.height = height
+                user.birth_date = birth_date
+                user.activity_level = activity_level
+                user.diet_goals = diet_goals
+                user.goal_weight = goal_weight
+
                 user.save()
+
+                # profile.save()
                 status = 1
 
                 current_user = user
@@ -160,15 +178,24 @@ def accountsprofile(request):
                 status = 2
 
     # if a GET (or any other method) we'll create a blank form
-        
-    data = {'firstname'  : current_user.first_name,
-            'lastname'   : current_user.last_name,
-            'email'      : current_user.email,
-            'username'   : current_user.username}        
-        
+
+    data = {'firstname': current_user.first_name,
+            'lastname': current_user.last_name,
+            'email': current_user.email,
+            'username': current_user.username,
+            'gender': current_user.gender,
+            'start_weight': current_user.start_weight,
+            'height': current_user.height,
+            'birth_date': current_user.birth_date,
+            'activity_level': current_user.activity_level,
+            'diet_goals': current_user.diet_goals,
+            'goal_weight': current_user.goal_weight,
+            }
+
     form = AccountForm(data)
 
-    return render(request, 'registration/profile.html', {'form' : form, 'status': status})
+    return render(request, 'registration/profile.html', {'form': form, 'status': status})
+
 
 def vklogin_widget(request):
     first_name = request.GET.get('first_name', False)
