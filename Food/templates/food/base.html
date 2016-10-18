@@ -1,0 +1,7 @@
+{% extends "blog/base.html" %}
+
+            {% if user.is_authenticated %}
+            auth
+             <a href="{% url 'food_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+            {% endif %}
+            <h1><a href="/food">Food</a></h1>

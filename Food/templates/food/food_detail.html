@@ -1,0 +1,10 @@
+{% extends 'food/base.html' %}
+
+{% block content %}
+    <div class="recipe">
+        <h1>{{ food.title }}</h1>
+        <img src="{{recipe.image.url}}" alt="My image"/>
+        <h1>Food:</h1>
+        <p>{{ recipe.text|linebreaksbr }}</p>
+    </div>
+{% endblock %}
