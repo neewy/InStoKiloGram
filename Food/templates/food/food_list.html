@@ -5,10 +5,9 @@
         <input type="text" name="q">
         <input type="submit" value="Search">
     </form>
-    {% for recipe in recipes %}
+    {% for food in food %}
         <div class="recipe">
-            <h1><a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a></h1>
-            <p><img src="{{recipe.image.url}}" alt="My image"/></p>
+            <h1><a href="{% url 'food_detail' pk=food.pk %}">{{ food.name }}</a></h1>
         </div>
     {% endfor %}
 {% endblock content %}

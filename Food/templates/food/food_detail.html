@@ -2,9 +2,8 @@
 
 {% block content %}
     <div class="recipe">
-        <h1>{{ food.title }}</h1>
-        <img src="{{recipe.image.url}}" alt="My image"/>
+        <h1>{{ food.name }}</h1>
         <h1>Food:</h1>
-        <p>{{ recipe.text|linebreaksbr }}</p>
+        <p>{{ food.description|linebreaksbr }}</p>
     </div>
 {% endblock %}
