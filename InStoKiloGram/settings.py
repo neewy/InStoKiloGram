@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'Users',
     'Voting',
     'Blog',
+    'Weight'
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,22 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<h1>Weight History</h1>
+
+{% if user.is_authenticated %}
+          
+<a href="/weight/add"><img src="/static/img/addweight.jpg" alt="Add weight">Add weight</a>
+
+<hr>
+
+<ul>
+{% for wd in wds %}
+    <li>{{wd.date}} - {{wd.weight}} kg</li>
+{% endfor %}
+</ul>
+
+{% else %}
+
+Please <a href="/login/">login</a> first to view weight history.<br/><br/>
+
+{% endif %}
+{% endblock %}

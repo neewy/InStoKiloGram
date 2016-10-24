@@ -1,0 +1,36 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<h1>Add Weight</h1>
+
+{% if user.is_authenticated %}
+
+
+Records date: {{ now }}
+
+{% if invalid %}
+<h3>
+<span style="color:red">Invalid weight</span>
+</h3>
+{% endif %}
+
+<form method="post" action="/weight/add/">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<input type="submit" value="Enter weight data" id="wadd" / class="clearfix">
+</form>
+    
+<script type="text/javascript">
+document.getElementById('wadd').focus();
+</script>
+
+
+
+{% else %}
+
+Please <a href="/login/">login</a> first to add weight data.<br/><br/>
+
+{% endif %}
+{% endblock %}
