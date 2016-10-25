@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'Users',
     'Voting',
     'Blog',
-    'Food',
+    'Weight'
 ]
 
 MIDDLEWARE = [
@@ -104,10 +104,10 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'msd',
-        'USER': 'msd',
+        'NAME': 'instdb',
+        'USER': 'insto',
         'HOST': 'localhost',
-        'PASSWORD': 'msd',
+        'PASSWORD': 'qwerty',
         'PORT': '5432',
     }
 

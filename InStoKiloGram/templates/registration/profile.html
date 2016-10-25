@@ -13,20 +13,19 @@
 <span style="color:green">Success</span>
 {% endif %}
 
-
-<form method="post" action="/accounts/profile/">
-
+<form method="post" action="">
 {% csrf_token %}
-
-{{ form.as_p }}
-
+{% for field in form %}
+    <div class="fieldWrapper">
+        <!--{{ field.errors }}-->
+        {{ field.label_tag }} {{ field }}
+    </div>
+{% endfor %}
 <input type="submit" value="Update info" / class="clearfix">
 </form>
-    
 <script type="text/javascript">
 document.getElementById('username').focus();
 </script>
-
 
 {% else %}
 
