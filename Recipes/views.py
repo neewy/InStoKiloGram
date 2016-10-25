@@ -8,12 +8,12 @@ from Recipes.models import Recipe
 
 def recipe_list(request):
     recipes = Recipe.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'foodandrecipes/recipe_list.html', {'recipes': recipes})
+    return render(request, 'recipes/recipe_list.html', {'recipes': recipes})
 
 
 def recipe_detail(request, pk):
     recipe = get_object_or_404(Recipe, pk=pk)
-    return render(request, 'foodandrecipes/recipe_detail.html', {'recipe': recipe})
+    return render(request, 'recipes/recipe_detail.html', {'recipe': recipe})
 
 def recipe_new(request):
     if request.method == "POST":
@@ -27,7 +27,7 @@ def recipe_new(request):
             return redirect('recipe_detail', pk=recipe.pk)
     else:
         form = RecipeForm()
-    return render(request, 'foodandrecipes/recipe_edit.html', {'form': form})
+    return render(request, 'recipes/recipe_edit.html', {'form': form})
 
 
 def recipe_edit(request, pk):
@@ -43,20 +43,20 @@ def recipe_edit(request, pk):
             return redirect('recipe_detail', pk=recipe.pk)
     else:
         form = RecipeForm(instance=recipe)
-    return render(request, 'foodandrecipes/recipe_edit.html', {'form': form})
+    return render(request, 'recipes/recipe_edit.html', {'form': form})
 
 def search_form(request):
-    return render_to_response('foodandrecipes/search_form.html')
+    return render_to_response('recipes/search_form.html')
 
 def search(request):
     if 'q' in request.GET and request.GET['q']:
         q = request.GET['q']
         recipes = Recipe.objects.filter(title__icontains=q).order_by('title')
         print (recipes)
-        return render(request, 'foodandrecipes/search_results.html',
-            {'recipes': recipes, 'query': q})
+        return render(request, 'recipes/search_results.html',
+                      {'recipes': recipes, 'query': q})
     else:
-        return render(request, 'foodandrecipes/search_results.html')
+        return render(request, 'recipes/search_results.html')
 
 def bad_search(request):
     message = 'You searched for: %r' % request.GET['q']
