@@ -1,10 +1,6 @@
-{% extends 'foodandrecipes/base.html' %}
+{% extends 'recipes/base.html' %}
 
 {% block content %}
-    <form action="search/" method="get">
-        <input type="text" name="q">
-        <input type="submit" value="Search">
-    </form>
     {% for recipe in recipes %}
         <div class="recipe">
             <h1><a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a></h1>

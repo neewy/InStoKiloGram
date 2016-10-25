@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'compressor',
     'Diets',
-    'FoodAndRecipes',
+    'Recipes',
     'SocialNetwork',
     'SocialNetwork.Messages',
     'SocialNetwork.Wall',
