@@ -10,6 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
+from .email_info import *
+EMAIL_USE_TLS = EMAIL_USE_TLS
+EMAIL_HOST = EMAIL_HOST
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWROD = EMAIL_HOST_PASSWROD
+EMAIL_PORT = EMAIL_PORT
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -105,10 +112,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'instdb',
-        'USER': 'insto',
+        'USER': 'postgres',
         'HOST': 'localhost',
-        'PASSWORD': 'qwerty',
-        'PORT': '5432',
+        'PASSWORD': 'root',
+        'PORT': '5433',
     }
 
 }
