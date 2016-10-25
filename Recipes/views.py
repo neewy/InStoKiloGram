@@ -2,8 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.utils import timezone
 
-from FoodAndRecipes.forms import RecipeForm
-from FoodAndRecipes.models import Recipe
+from Recipes.forms import RecipeForm
+from Recipes.models import Recipe
 
 
 def recipe_list(request):

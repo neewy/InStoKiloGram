@@ -44,14 +44,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'compressor',
     'Diets',
-    'FoodAndRecipes',
+    'Recipes',
     'SocialNetwork',
     'SocialNetwork.Messages',
     'SocialNetwork.Wall',
     'Users',
     'Voting',
     'Blog',
-    'Weight'
+    'Weight',
+    'Food',
 ]
 
 MIDDLEWARE = [
@@ -111,11 +112,11 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'instdb',
-        'USER': 'postgres',
+        'NAME': 'msd',
+        'USER': 'msd',
         'HOST': 'localhost',
-        'PASSWORD': 'root',
-        'PORT': '5433',
+        'PASSWORD': 'msd',
+        'PORT': '5432',
     }
 
 }

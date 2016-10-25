@@ -4,4 +4,4 @@ from django.apps import AppConfig
 
 
 class FoodandrecipesConfig(AppConfig):
-    name = 'FoodAndRecipes'
+    name = 'Recipes'
