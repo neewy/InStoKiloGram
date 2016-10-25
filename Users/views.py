@@ -16,6 +16,7 @@ from Users.models import User
 from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
+from django.core.mail import EmailMessage
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 
@@ -61,6 +62,8 @@ def customlogin(request):
             
             if settings.DEBUG:
                 print >>sys.stderr, "Got login and password: "
+                print >>sys.stderr, the_username
+                print >>sys.stderr, the_password
                 print >>sys.stderr, pprint.pprint(form)
             
             try:
@@ -115,7 +118,22 @@ def customregister(request):
                         form = LoginForm(request.POST)
                         user = User(username=username, password=password, email=email)
                         user.save()
-
+                        subject = 'Thank you for InstoKilogram registration'
+                        message = 'Welcome to InstoKilogram!/n' \
+                                  'To finish registration, please proceed the following link./n' \
+                                  'If you did not register at our site, please ignore this message./n' \
+                                  '/n' \
+                                  'Yours,' \
+                                  'InstoKilogram'
+                        from_email = settings.EMAIL_HOST_USER
+                        to_list = [email]
+                        email_confirm = EmailMessage(
+                            subject,
+                            message,
+                            to_list,
+                        )
+                        email_confirm.send()
+                        #send_mail(subject, message, from_email, to_list, fail_silently=True)
                         if user is not None:
                             login(request, user)
                             # Redirect to a success page.

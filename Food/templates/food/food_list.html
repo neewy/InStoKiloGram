@@ -1,0 +1,9 @@
+{% extends 'food/base.html' %}
+
+{% block content %}
+    {% for food in food %}
+        <div class="recipe">
+            <h1><a href="{% url 'food_detail' pk=food.pk %}">{{ food.name }}</a></h1>
+        </div>
+    {% endfor %}
+{% endblock content %}

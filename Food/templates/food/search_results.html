@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <form action="" method="get">
+        <input type="text" name="q">
+        <input type="submit" value="Search">
+    </form>
+    {% if recipes %}
+    <p>You searched for: <strong>{{ query }}</strong></p>
+    <p>Found {{ recipes|length }} recipe{{ recipes|pluralize }}.</p>
+        {% for recipe in recipes %}
+        <div class="recipe">
+            <h1><a href="{% url 'food_detail' pk=recipe.pk %}">{{ recipe.title }}</a></h1>
+            <p><img src="{{recipe.image.url}}" alt="My image"/></p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No food matched your search criteria.</p>
+    {% endif %}
+{% endblock content %}
