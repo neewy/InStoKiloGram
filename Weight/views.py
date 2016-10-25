@@ -39,9 +39,8 @@ def wadd(request):
     return render(request, 'add.html', {'form' : form, 'now': now.strftime("%Y-%m-%d %H:%M:%S")})
 
 def wview(request):
-    
-    resp = "<h1>List of latest users</h1><hr>";
-    whistory = Weight.objects.order_by('-date')[:100]
+   
+    whistory = Weight.objects.filter(user_id=request.user.id).order_by('-date')[:100]
     
     output = '<br> '.join([str(w.date) + str(w.weight) for w in whistory])
 
