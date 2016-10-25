@@ -1,6 +1,13 @@
 from django.db.models import DateField
 from django.shortcuts import render
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.conf import settings
+import mimetypes
 
+
+
+import os
 # Create your views here.
 
 from django.http import HttpResponse
@@ -10,6 +17,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.conf import settings
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 import string
 import random
@@ -140,7 +148,11 @@ def accountsprofile(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = AccountForm(request.POST)
+        # file_data = {'image': SimpleUploadedFile('woman.png', request.FILES)}
+        form = AccountForm(request.POST, request.FILES)
+
+        for error in form.errors:
+            print>>sys.stderr, error
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
@@ -154,10 +166,12 @@ def accountsprofile(request):
             activity_level = request.POST.get('activity_level', False)
             diet_goals = request.POST.get('diet_goals', False)
             goal_weight = request.POST.get('goal_weight', False)
+            image = form.cleaned_data['image']
+            #print>>sys.stderr, 'avatar/' + current_user.username + '/' + image.name
 
             if settings.DEBUG:
                 print >> sys.stderr, "Got data: "
-                print >> sys.stderr, pprint.pprint(form)
+                print >> sys.stderr, pprint.pprint(image)
 
             try:
                 user = User.objects.get(username=current_user.username)
@@ -170,6 +184,11 @@ def accountsprofile(request):
                 user.activity_level = activity_level
                 user.diet_goals = diet_goals
                 user.goal_weight = goal_weight
+                # user.photoimage = image
+
+                file_name = 'avatar/' + current_user.username + '/' + image.name
+                path = default_storage.save(file_name, ContentFile(image.read()))
+                user.photourl = "/media/" + path
 
                 user.save()
 
@@ -177,8 +196,9 @@ def accountsprofile(request):
                 status = 1
 
                 current_user = user
-            except Exception:
+            except Exception as e:
                 # Return an 'invalid login' error message.
+                print >> sys.stderr, e
                 status = 2
 
     # if a GET (or any other method) we'll create a blank form

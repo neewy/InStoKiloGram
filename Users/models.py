@@ -23,6 +23,7 @@ class User(AbstractUser):
     vkid = models.BigIntegerField( default = 0 )
     photourl = models.CharField(max_length=500, default="")
 
+    photoimage = models.ImageField(upload_to='/media/avatar', null=True, blank=True)
 
 
     gender_choices = (

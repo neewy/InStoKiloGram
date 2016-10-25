@@ -13,16 +13,22 @@
 <span style="color:green">Success</span>
 {% endif %}
 
-<form method="post" action="">
+<form enctype="multipart/form-data" method="post" action="">
 {% csrf_token %}
 {% for field in form %}
     <div class="fieldWrapper">
-        <!--{{ field.errors }}-->
         {{ field.label_tag }} {{ field }}
     </div>
+
 {% endfor %}
+    <!--<div>-->
+    <!--{% if post.image == None%}-->
+        <!--<img src="{{post.image.url}}" alt="My image"/>-->
+    <!--{% endif %}-->
+     <!--</div>-->
 <input type="submit" value="Update info" / class="clearfix">
 </form>
+
 <script type="text/javascript">
 document.getElementById('username').focus();
 </script>
