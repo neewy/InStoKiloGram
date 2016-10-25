@@ -148,7 +148,6 @@ def accountsprofile(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        # file_data = {'image': SimpleUploadedFile('woman.png', request.FILES)}
         form = AccountForm(request.POST, request.FILES)
 
         for error in form.errors:
@@ -167,7 +166,6 @@ def accountsprofile(request):
             diet_goals = request.POST.get('diet_goals', False)
             goal_weight = request.POST.get('goal_weight', False)
             image = form.cleaned_data['image']
-            #print>>sys.stderr, 'avatar/' + current_user.username + '/' + image.name
 
             if settings.DEBUG:
                 print >> sys.stderr, "Got data: "
@@ -184,7 +182,6 @@ def accountsprofile(request):
                 user.activity_level = activity_level
                 user.diet_goals = diet_goals
                 user.goal_weight = goal_weight
-                # user.photoimage = image
 
                 file_name = 'avatar/' + current_user.username + '/' + image.name
                 path = default_storage.save(file_name, ContentFile(image.read()))
@@ -192,7 +189,6 @@ def accountsprofile(request):
 
                 user.save()
 
-                # profile.save()
                 status = 1
 
                 current_user = user
@@ -214,11 +210,13 @@ def accountsprofile(request):
             'activity_level': current_user.activity_level,
             'diet_goals': current_user.diet_goals,
             'goal_weight': current_user.goal_weight,
+            'image': current_user.photourl,
             }
+    user = current_user
 
     form = AccountForm(data)
 
-    return render(request, 'registration/profile.html', {'form': form, 'status': status})
+    return render(request, 'registration/profile.html', {'form': form, 'status': status, 'data': data, 'user': user})
 
 
 def vklogin_widget(request):
