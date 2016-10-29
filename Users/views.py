@@ -1,6 +1,13 @@
 from django.db.models import DateField
 from django.shortcuts import render
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.conf import settings
+import mimetypes
 
+
+
+import os
 # Create your views here.
 
 from django.http import HttpResponse
@@ -11,6 +18,7 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.core.mail import EmailMessage
 from django.conf import settings
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 import string
 import random
@@ -158,7 +166,10 @@ def accountsprofile(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = AccountForm(request.POST)
+        form = AccountForm(request.POST, request.FILES)
+
+        for error in form.errors:
+            print>>sys.stderr, error
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
@@ -172,10 +183,11 @@ def accountsprofile(request):
             activity_level = request.POST.get('activity_level', False)
             diet_goals = request.POST.get('diet_goals', False)
             goal_weight = request.POST.get('goal_weight', False)
+            image = form.cleaned_data['image']
 
             if settings.DEBUG:
                 print >> sys.stderr, "Got data: "
-                print >> sys.stderr, pprint.pprint(form)
+                print >> sys.stderr, pprint.pprint(image)
 
             try:
                 user = User.objects.get(username=current_user.username)
@@ -189,14 +201,18 @@ def accountsprofile(request):
                 user.diet_goals = diet_goals
                 user.goal_weight = goal_weight
 
+                file_name = 'avatar/' + current_user.username + '/' + image.name
+                path = default_storage.save(file_name, ContentFile(image.read()))
+                user.photourl = "/media/" + path
+
                 user.save()
 
-                # profile.save()
                 status = 1
 
                 current_user = user
-            except Exception:
+            except Exception as e:
                 # Return an 'invalid login' error message.
+                print >> sys.stderr, e
                 status = 2
 
     # if a GET (or any other method) we'll create a blank form
@@ -212,11 +228,13 @@ def accountsprofile(request):
             'activity_level': current_user.activity_level,
             'diet_goals': current_user.diet_goals,
             'goal_weight': current_user.goal_weight,
+            'image': current_user.photourl,
             }
+    user = current_user
 
     form = AccountForm(data)
 
-    return render(request, 'registration/profile.html', {'form': form, 'status': status})
+    return render(request, 'registration/profile.html', {'form': form, 'status': status, 'data': data, 'user': user})
 
 
 def vklogin_widget(request):

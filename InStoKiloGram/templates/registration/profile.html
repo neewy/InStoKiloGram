@@ -13,16 +13,27 @@
 <span style="color:green">Success</span>
 {% endif %}
 
-<form method="post" action="">
+<form enctype="multipart/form-data" method="post" action="">
 {% csrf_token %}
+
+        <div style="position: relative;  width: 100px; height: 100px; overflow: hidden; display: inline-block;">
+            <div style ="position: absolute;   left: 50%;   top: 50%;   min-height: 100%;  min-width: 100%;   height: auto;   width: auto;   transform: translate(-50%, -50%);">
+               {% if data.image %}
+                    <p> <img src="{{data.image}}" align="middle" alt="Photo"/></p>
+                {%else %}
+                    <p> <img src="/media/avatar/no-avatar.png"  align="middle" alt="Photo"/></p>
+                {% endif %}
+            </div>
+        </div>
+
 {% for field in form %}
     <div class="fieldWrapper">
-        <!--{{ field.errors }}-->
         {{ field.label_tag }} {{ field }}
     </div>
 {% endfor %}
 <input type="submit" value="Update info" / class="clearfix">
 </form>
+
 <script type="text/javascript">
 document.getElementById('username').focus();
 </script>

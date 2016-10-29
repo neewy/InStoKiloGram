@@ -1,5 +1,8 @@
 from django import forms
 from django.utils.safestring import mark_safe
+from django.core.files.images import get_image_dimensions
+
+from Users.models import User
 
 
 class LoginForm(forms.Form):
@@ -43,15 +46,21 @@ class HorizontalRadioRenderer(forms.RadioSelect.renderer):
 
 
 class AccountForm(forms.Form):
+    class Meta:
+        model = User
+        fields = ('goal_weight')
     firstname = forms.CharField(label='First Name', max_length=100)
     lastname = forms.CharField(label='Last Name', max_length=100)
     gender = forms.ChoiceField(label='Gender:', widget=forms.RadioSelect(renderer=HorizontalRadioRenderer),
                                choices=gender_choices)
     start_weight = forms.FloatField(label='Current weight')
     height = forms.FloatField(label='Height')
-    # birth_date = forms.DateField(label='Date of birth', widget=forms.DateInput, required=False)
-    birth_date = forms.DateField(label='Date of birth', widget=forms.SelectDateWidget(years = year_choices,empty_label=("Choose Year", "Choose Month", "Choose Day")), required=False)
+    birth_date = forms.DateField(label='Date of birth', widget=forms.SelectDateWidget(years = year_choices,empty_label=("Choose Year", "Choose Month", "Choose Day")))
     activity_level = forms.ChoiceField(widget=forms.RadioSelect(renderer=HorizontalRadioRenderer),
-                                       choices=activity_choices, required=False)
-    diet_goals = forms.ChoiceField(label='Diet goals:', widget=forms.Select, choices=goals_choices, required=False)
-    goal_weight = forms.FloatField(label='Weight goals', required=False)
+                                       choices=activity_choices)
+    diet_goals = forms.ChoiceField(label='Diet goals:', widget=forms.Select, choices=goals_choices)
+    goal_weight = forms.FloatField(label='Weight goals')
+    image = forms.ImageField(required=False)
+
+
+

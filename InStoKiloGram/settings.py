@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'Voting',
     'Blog',
     'Weight',
-    'Food',
+    'Food'
 ]
 
 MIDDLEWARE = [

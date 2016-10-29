@@ -1,2 +1,5 @@
 .idea
 .idea/*
+
+*.pyc
+/media/avatar/*
