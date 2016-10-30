@@ -20,6 +20,7 @@ from Weight import views as wviews
 
 urlpatterns = [
     url(r'^weight/add/$',wviews.wadd, name='wadd'),
+    url(r'^weight/delete/$',wviews.wdelete, name='wdelete'),
     url(r'^weight/$',wviews.wview, name='wview'),
     url(r'^admin/', admin.site.urls),
     url(r'', include('Blog.urls')),

@@ -40,14 +40,27 @@ def wadd(request):
 
 def wview(request):
    
-    whistory = Weight.objects.filter(user_id=request.user.id).order_by('-date')[:100]
+    whistory = Weight.objects.filter(user_id=request.user.id).order_by('-id')[:100]
     
     output = '<br> '.join([str(w.date) + str(w.weight) for w in whistory])
 
     wds = []
     
     for w in whistory:
-        wds.extend([{'date':w.date.strftime("%Y-%m-%d %H:%M:%S"),'weight':str(w.weight)}])
+        wds.extend([{'date':w.date.strftime("%Y-%m-%d %H:%M:%S"),'weight':str(w.weight), 'dateraw':w.id}])
     
     return render(request, 'view.html', {'wds': wds})
     
+
+def wdelete(request):
+    if request.method == 'POST':
+        try:
+            id = int(request.POST.get('id', False))
+            user_id=request.user.id
+            Weight.objects.filter(id=id,user_id=user_id).delete()
+        except:
+            1
+            
+    return redirect('/weight/')
+
+

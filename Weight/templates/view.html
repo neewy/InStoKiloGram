@@ -10,7 +10,13 @@
 
 <ul>
 {% for wd in wds %}
-    <li>{{wd.date}} - {{wd.weight}} kg</li>
+    <li>{{wd.date}} - 
+    <form style="display: inline;"  action="/weight/delete/" method="post">{% csrf_token %}
+        <input type=hidden name="id" value="{{wd.dateraw}}">
+        <button class="glyphicon glyphicon-trash" type="submit"></button>
+    </form>
+    - {{wd.weight}} kg 
+    </li>
 {% endfor %}
 </ul>
 
