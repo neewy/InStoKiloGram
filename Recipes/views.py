@@ -8,7 +8,7 @@ from Recipes.models import Recipe
 
 def recipe_list(request):
     recipes = Recipe.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'recipes/recipe_list.html', {'exercises': recipes})
+    return render(request, 'recipes/recipe_list.html', {'recipes': recipes})
 
 
 def recipe_detail(request, pk):
