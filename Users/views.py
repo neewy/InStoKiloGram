@@ -1,40 +1,27 @@
-from django.db.models import DateField
-from django.shortcuts import render
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
-from django.conf import settings
-import mimetypes
-
-
-
-import os
-# Create your views here.
-
-from django.http import HttpResponse
-from django.utils import timezone
-from Users.models import User
-from django.shortcuts import redirect
-from django.contrib.auth import logout
-from django.contrib.auth import authenticate, login
-from django.core.mail import EmailMessage
-from django.conf import settings
-from django.core.files.uploadedfile import SimpleUploadedFile
-
-import string
-import random
-import uuid
-import sys
-import pprint
-import urllib
-import vkontakte
 import json
+import pprint
 import re
+import sys
+import urllib
+import uuid
 
+import vkontakte
+from django.conf import settings
+from django.contrib.auth import login
+from django.contrib.auth import logout
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.shortcuts import render
+
+from Users.models import User
 from .forms import LoginForm, RegisterForm, AccountForm
 
 
 def index(request):
-    resp = "<h1>List of latest users</h1><hr>";
+    resp = "<h1>List of latest users</h1><hr>"
     latest_users = User.objects.order_by('-pk')[:100]
     output = '<br> '.join([u.username for u in latest_users])    
     resp = resp + "<br>" + output + "<hr>"
@@ -267,7 +254,7 @@ def vkoauthcb(request):
     error_description = request.GET.get('error_description')
 
     if (not code) or (error_description):
-        return redirect('/vklogin/?error_description=' + error_description);
+        return redirect('/vklogin/?error_description=' + error_description)
 
     redirect_url = settings.VK_REDIR
     

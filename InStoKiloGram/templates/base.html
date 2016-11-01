@@ -13,6 +13,7 @@
         <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/theme.less' %}"/>
         <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/header.less' %}"/>
         <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/blog.less' %}"/>
+        <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/diet.less' %}"/>
         <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/footer.less' %}"/>
         <script src="{% static 'js/less.min.js' %}" type="text/javascript"></script>
     {% else %}
@@ -20,6 +21,7 @@
             <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/theme.less' %}"/>
             <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/header.less' %}"/>
             <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/blog.less' %}"/>
+            <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/diet.less' %}"/>
             <link rel="stylesheet" type="text/less" media="all" href="{% static 'less/footer.less' %}"/>
         {% endcompress %}
     {% endif %}
@@ -62,7 +64,7 @@
                                     {% if user.photourl %}
                                         <p> <img src="{{ user.photourl }}" align="middle" alt="My image"/></p>
                                     {%else %}
-                                        <p> <img src="/media/avatar/no-avatar.png"  align="middle" alt="Photo"/></p>
+                                        <p> <img src="/media/avatar/no-avatar.png" align="middle" alt="Photo"/></p>
                                     {% endif %}
                                 </div>
                             </div>
@@ -77,7 +79,7 @@
                         <a href="/">Blog</a>
                     </li>
                     <li>
-                        <a href="/recipes/">Diets</a>
+                        <a href="/diet/">Diets</a>
                     </li>
                     <li>
                         <a href="/food/">Products</a>

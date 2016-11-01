@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+
 from Users import views
 from Weight import views as wviews
 
@@ -24,6 +25,7 @@ urlpatterns = [
     url(r'^weight/$',wviews.wview, name='wview'),
     url(r'^admin/', admin.site.urls),
     url(r'', include('Blog.urls')),
+    url(r'', include('Diets.urls')),
     url(r'^users/', include('Users.urls')),
     url(r'^login/$',views.customlogin, name='login'),
     url(r'^logout/$',views.customlogout, name='logout'),
