@@ -49,7 +49,7 @@ def wview(request):
     for w in whistory:
         wds.extend([{'date':w.date.strftime("%Y-%m-%d %H:%M:%S"),'weight':str(w.weight), 'dateraw':w.id}])
     
-    return render(request, 'view.html', {'wds': wds})
+    return render(request, 'weight_view.html', {'wds': wds})
     
 
 def wdelete(request):
