@@ -1,0 +1,10 @@
+{% extends 'exercise/base.html' %}
+
+{% block content %}
+    {% for exercise in exercises %}
+        <div class="exercise">
+            <h1><a href="{% url 'exercise_detail' pk=exercise.pk %}">{{ exercise.title }}</a></h1>
+            <p><img src="{{exercise.image.url}}" alt="My image"/></p>
+        </div>
+    {% endfor %}
+{% endblock content %}

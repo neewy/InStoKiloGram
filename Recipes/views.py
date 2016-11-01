@@ -8,7 +8,7 @@ from Recipes.models import Recipe
 
 def recipe_list(request):
     recipes = Recipe.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'recipes/recipe_list.html', {'recipes': recipes})
+    return render(request, 'recipes/recipe_list.html', {'exercises': recipes})
 
 
 def recipe_detail(request, pk):
@@ -54,7 +54,7 @@ def search(request):
         recipes = Recipe.objects.filter(title__icontains=q).order_by('title')
         print (recipes)
         return render(request, 'recipes/search_results.html',
-                      {'recipes': recipes, 'query': q})
+                      {'exercises': recipes, 'query': q})
     else:
         return render(request, 'recipes/search_results.html')
 

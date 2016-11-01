@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <form action="" method="get">
+        <input type="text" name="q">
+        <input type="submit" value="Search">
+    </form>
+    {% if exercises %}
+    <p>You searched for: <strong>{{ query }}</strong></p>
+    <p>Found {{ exercises|length }} exercise{{ exercises|pluralize }}.</p>
+        {% for exercise in exercises %}
+        <div class="exercise">
+            <h1><a href="{% url 'exercise_detail' pk=exercise.pk %}">{{ exercise.title }}</a></h1>
+            <p><img src="{{exercise.image.url}}" alt="My image"/></p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No exercise matched your search criteria.</p>
+    {% endif %}
+{% endblock content %}

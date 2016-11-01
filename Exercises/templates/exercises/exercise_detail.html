@@ -1,0 +1,10 @@
+{% extends 'exercises/base.html' %}
+
+{% block content %}
+    <div class="exercise">
+        <h1>{{ exercise.title }}</h1>
+        <img src="{{exercise.image.url}}" alt="My image"/>
+        <h1>Exercise:</h1>
+        <p>{{ exercise.text|linebreaksbr }}</p>
+    </div>
+{% endblock %}
