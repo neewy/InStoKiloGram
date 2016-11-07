@@ -1,10 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Weight History</h1>
+<h1><a href="/weight/">Weight History</a></h1>
 
 {% if user.is_authenticated %}
           
-<a href="/weight/add"><img src="/static/img/addweight.jpg" alt="Add weight">Add weight</a>
+<a href="/weight/add"><img src="/static/img/addweight.jpg" alt="Add weight">Add weight</a><br>
+<hr>
+
+{% if stat %}
+
+<div id="myfirstchart" style="height: 250px; width:800px"></div>
+
+{% else %}
+
+<a href="/weight/stat">Graph</a><br>
+
+{% endif %}
 
 <hr>
 
@@ -20,9 +31,38 @@
 {% endfor %}
 </ul>
 
+
+
 {% else %}
 
 Please <a href="/login/">login</a> first to view weight history.<br/><br/>
 
 {% endif %}
+
+
+<script>
+new Morris.Line({
+  // ID of the element in which to draw the chart.
+  element: 'myfirstchart',
+  // Chart data records -- each entry in this array corresponds to a point on
+  // the chart.
+  data: [
+    
+{% for wd in wds %}
+    { year: '{{wd.date}}', value: {{wd.weight}} },
+{% endfor %}
+    
+    
+  ],
+  // The name of the data record attribute that contains x-values.
+  xkey: 'year',
+  // A list of names of data record attributes that contain y-values.
+  ykeys: ['value'],
+  // Labels for the ykeys -- will be displayed when you hover over the
+  // chart.
+  labels: ['Value'],
+  parseTime: true
+});
+</script>
+
 {% endblock %}

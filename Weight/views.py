@@ -42,7 +42,7 @@ def wview(request):
    
     whistory = Weight.objects.filter(user_id=request.user.id).order_by('-id')[:100]
     
-    output = '<br> '.join([str(w.date) + str(w.weight) for w in whistory])
+#    output = '<br> '.join([str(w.date) + str(w.weight) for w in whistory])
 
     wds = []
     
@@ -62,5 +62,17 @@ def wdelete(request):
             1
             
     return redirect('/weight/')
+
+def wstat(request):
+    whistory = Weight.objects.filter(user_id=request.user.id).order_by('-id')[:100]
+    
+    wds = []
+    
+    for w in whistory:
+        wds.extend([{'date':w.date.strftime("%Y-%m-%d %H:%M:%S"),'weight':str(w.weight), 'dateraw':w.id}])
+    
+    return render(request, 'view.html', {'wds': wds, 'stat':1})
+    
+
 
 
