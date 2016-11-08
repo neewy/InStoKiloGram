@@ -2,12 +2,12 @@
 
 {% block content %}
     <h1>New review</h1>
-    <form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
+    <form method="POST" class="review-form" enctype="multipart/form-data">{% csrf_token %}
         {% for field in form %}
             <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">{{ field.label_tag }}</span>
+                <span class="input-group-addon">{{ field.label_tag }}</span>
                 {{ field.errors }}
-                    {{ field }}
+                {{ field }}
             </div>
             <br>
         {% endfor %}

@@ -43,7 +43,7 @@ def new_diet(request):
 def diet_edit(request, pk):
     diet = get_object_or_404(Diet, pk=pk)
     if request.method == "POST":
-        form = DietForm(request.POST, request.FILES)
+        form = DietForm(request.POST, request.FILES, instance=diet)
         if form.is_valid():
             diet = form.save(commit=False)
             diet.author = request.user
@@ -81,7 +81,7 @@ def new_review(request):
 def review_edit(request, pk):
     review = get_object_or_404(DietReview, pk=pk)
     if request.method == "POST":
-        form = DietReviewForm(request.POST, request.FILES)
+        form = DietReviewForm(request.POST, request.FILES, instance=diet)
         if form.is_valid():
             review = form.save(commit=False)
             review.author = request.user
