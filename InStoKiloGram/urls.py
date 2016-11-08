@@ -40,4 +40,5 @@ urlpatterns = [
     url(r'^register/$',views.customregister, name='register'),
     url(r'^exercises/', include('Exercises.urls')),
     url(r'^food/', include('Food.urls')),
+    url(r'^recipes/', include('Recipes.urls')),
 ]
