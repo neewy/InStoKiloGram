@@ -52,6 +52,7 @@ def diet_edit(request, pk):
             diet.published_date = timezone.now()
             diet.image = form.cleaned_data['image']
             diet.save()
+            #fixme: ONLY THE LAST ONE IS ADDED
             for recipe in request.POST.get('recipes', False):
                 diet.recipes.add(recipe)
             return redirect('diet_detail', pk=diet.pk)
