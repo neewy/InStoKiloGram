@@ -23,19 +23,19 @@ from .forms import LoginForm, RegisterForm, AccountForm
 def index(request):
     resp = "<h1>List of latest users</h1><hr>"
     latest_users = User.objects.order_by('-pk')[:100]
-    output = '<br> '.join([u.username for u in latest_users])    
+    output = '<br> '.join([u.username for u in latest_users])
     resp = resp + "<br>" + output + "<hr>"
     return HttpResponse(resp)
 
 
 def customlogout(request):
     if request.user.is_authenticated():
-        logout(request)    
-   
+        logout(request)
+
     return redirect('/')
 
 def customlogin(request):
-    
+
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -46,13 +46,13 @@ def customlogin(request):
 
             the_username = request.POST.get('username', False)
             the_password = request.POST.get('password', False)
-            
+
             if settings.DEBUG:
                 print >>sys.stderr, "Got login and password: "
                 print >>sys.stderr, the_username
                 print >>sys.stderr, the_password
                 print >>sys.stderr, pprint.pprint(form)
-            
+
             try:
                 user = User.objects.get(username=the_username)
 
@@ -64,7 +64,7 @@ def customlogin(request):
                 else:
                     # Return an 'invalid password' error message.
                     form.invalid = 2
-                        
+
             except Exception:
                 # Return an 'invalid login' error message.
                 form.invalid=1
@@ -76,7 +76,7 @@ def customlogin(request):
         form = LoginForm()
 
     return render(request, 'registration/login.html', {'form' : form})
-    
+
 def customregister(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -224,91 +224,6 @@ def accountsprofile(request):
     return render(request, 'registration/profile.html', {'form': form, 'status': status, 'data': data, 'user': user})
 
 
-def myprofile(request):
-    if (not request.user.is_authenticated()):
-        return redirect('/')
-
-    current_user = request.user
-    # current_profile = request.userprofile
-
-    status = 0
-
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = AccountForm(request.POST, request.FILES)
-
-        for error in form.errors:
-            print>>sys.stderr, error
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-
-            the_firstname = request.POST.get('firstname', False)
-            the_lastname = request.POST.get('lastname', False)
-            gender = request.POST.get('gender', False)
-            start_weight = request.POST.get('start_weight', False)
-            height = request.POST.get('height', False)
-            birth_date = form.cleaned_data.get('birth_date', False)
-            activity_level = request.POST.get('activity_level', False)
-            diet_goals = request.POST.get('diet_goals', False)
-            goal_weight = request.POST.get('goal_weight', False)
-            image = form.cleaned_data['image']
-
-            if settings.DEBUG:
-                print >> sys.stderr, "Got data: "
-                print >> sys.stderr, pprint.pprint(image)
-
-            try:
-                user = User.objects.get(username=current_user.username)
-                user.first_name = the_firstname
-                user.last_name = the_lastname
-                user.gender = gender
-                user.start_weight = start_weight
-                user.height = height
-                user.birth_date = birth_date
-                user.activity_level = activity_level
-                user.diet_goals = diet_goals
-                user.goal_weight = goal_weight
-
-                file_name = 'avatar/' + current_user.username + '/' + image.name
-                path = default_storage.save(file_name, ContentFile(image.read()))
-                user.photourl = "/media/" + path
-
-                user.save()
-
-                status = 1
-
-                current_user = user
-            except Exception as e:
-                # Return an 'invalid login' error message.
-                print >> sys.stderr, e
-                status = 2
-
-    # if a GET (or any other method) we'll create a blank form
-
-    data = {'firstname': current_user.first_name,
-            'lastname': current_user.last_name,
-            'email': current_user.email,
-            'username': current_user.username,
-            'gender': current_user.gender,
-            'start_weight': current_user.start_weight,
-            'height': current_user.height,
-            'birth_date': current_user.birth_date,
-            'activity_level': current_user.activity_level,
-            'diet_goals': current_user.diet_goals,
-            'goal_weight': current_user.goal_weight,
-            'image': current_user.photourl,
-            }
-    user = current_user
-
-    form = AccountForm(data)
-
-    return render(request, 'My_profile.html', {'form': form, 'status': status, 'data': data, 'user': user})
-
-
-
-
 def vklogin_widget(request):
     first_name = request.GET.get('first_name', False)
     last_name  = request.GET.get('last_name', False)
@@ -334,6 +249,7 @@ def vkoauth(request):
 
     return redirect(auth_url)
 
+
 def vkoauthcb(request):
     code  = request.GET.get('code', False)
     error_description = request.GET.get('error_description')
@@ -342,7 +258,7 @@ def vkoauthcb(request):
         return redirect('/vklogin/?error_description=' + error_description)
 
     redirect_url = settings.VK_REDIR
-    
+
     auth_url = "https://oauth.vk.com/access_token?client_id=" + str(settings.VK_CLIENT_ID) + "&scope=" + settings.VK_SCOPE
     auth_url = auth_url + "&client_secret=" + str(settings.VK_CLIENT_SECRET)
     auth_url = auth_url + "&redirect_uri=" + urllib.pathname2url(redirect_url)
@@ -360,7 +276,7 @@ def vkoauthcb(request):
         if not email:
             data = {'error_description' : "This VK user does not have an email"}
             return render(request, 'registration/vklogin.html', data)
-        
+
         vk = vkontakte.API(token=access_token)
         profiles = vk.getProfiles(uids=str(user_id), fields='photo_100,nickname')
         profile = profiles[0]
@@ -375,14 +291,14 @@ def vkoauthcb(request):
                 existing = 1
         except Exception:
             existing = 0
-            
+
         if (not existing):
             try:
                 m = re.match(r"(.+)\@", email)
                 username = m.group(1)
                 print >>sys.stderr, "Creating new user"
                 print >>sys.stderr, pprint.pprint( user )
-                
+
                 password = str(uuid.uuid4().get_hex().upper()[0:16])
                 user = User( username = username, password = password, email = email, first_name = profile['first_name'], last_name = profile['last_name'] )
                 user.nickname = username
