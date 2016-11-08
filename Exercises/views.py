@@ -7,7 +7,7 @@ from Exercises.models import Exercise
 
 
 def exercise_list(request):
-    exercises = Exercise.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    exercises = Exercise.objects.order_by('title')
     return render(request, 'exercises/exercise_list.html', {'exercises': exercises})
 
 
