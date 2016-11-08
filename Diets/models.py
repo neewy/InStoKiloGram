@@ -9,6 +9,7 @@ class Diet(models.Model):
     name = models.CharField(max_length=40)
     author = models.ForeignKey('Users.User', blank=True, null=True)
     text = models.TextField()
+    recipes = models.ManyToManyField('Recipes.Recipe', blank=True)
     created_date = models.DateTimeField(default=timezone.now)
     image = models.ImageField(upload_to='pic_folder/', blank=True)
     published_date = models.DateTimeField(blank=True, null=True)

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="diet-page col-md-12">
+        {% if not diet.image %}
+            <div class="diet-without-thumbnail">
+                <h1 class="diet-top-title">{{ diet.name }}</h1>
+                <h5>by {{ diet.author.first_name }} {{ diet.author.last_name }}, {{ diet.get_pretty_date }}</h5>
+                <div class="diet-lead col-md-12">
+                    <p>{{ diet.text|linebreaksbr }}</p>
+                </div>
+            </div>
+        {% else %}
+            <div class="diet-with-thumbnail">
+                <div class="diet-thumbnail col-md-3 hidden-sm hidden-xs">
+                    <img class="img-responsive" src="{{ diet.image.url }}">
+                </div>
+                <div class="diet-lead col-md-9">
+                    <div class="col-md-10">
+                        <h1 class="diet-top-title">{{ diet.name }}</h1>
+                    </div>
+                    <span class="badge">{{ diet.get_score }}</span>
+
+                    <div class="col-md-12">
+                        <h5>
+                            by {{ diet.author.first_name }} {{ diet.author.last_name }}, {{ diet.get_pretty_date }}</h5>
+                        <p>{{ diet.text|linebreaksbr }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    {# TODO: check if empty #}
+    {% if diet.recipes %}
+        <div class="row col-lg-push-5 col-lg-2">
+            <h3>consists of</h3>
+        </div>
+
+        <div class="col-lg-12">
+            {% for recipe in diet.recipes.iterator %}
+                <div class="col-md-4 diet-recipe">
+                    <h2><a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a></h2>
+                    <p>{{ recipe.text }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

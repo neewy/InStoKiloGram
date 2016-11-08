@@ -16,6 +16,18 @@
         </div>
     </div>
 
+    {% if user.is_authenticated %}
+        <h3 id="manage-heading">Manage your diets and reviews</h3>
+        <div class="col-md-12">
+            <a href="{% url 'new_diet' %}">
+                <button type="button" class="btn btn-primary dropdown-toggle">Create new diet</button>
+            </a>
+            <a href="{% url 'new_review' %}">
+                <button type="button" class="btn btn-default dropdown-toggle">Create new review</button>
+            </a>
+        </div>
+    {% endif %}
+
     <h3 id="diet-heading">Choose your diet plan</h3>
 
     <div class="row big-diet-posts row-no-padding">
@@ -25,7 +37,10 @@
             <div class="diet-top col-md-6">
                 {% if not diet.image %}
                     <div class="diet-without-thumbnail">
-                        <h1 class="diet-top-title"><a href="#">{{ diet.name }}</a></h1>
+                        {% if user == diet.author %}
+                            <a href="{% url 'edit_diet' pk=diet.pk %}">EDIT</a>
+                        {% endif %}
+                        <h1 class="diet-top-title"><a href="{% url 'diet_detail' pk=diet.pk %}">{{ diet.name }}</a></h1>
                         <h5>by {{ diet.author.first_name }} {{ diet.author.last_name }}, {{ diet.get_pretty_date }}</h5>
                         <div class="diet-lead col-md-12">
                             <p>{{ diet.text|linebreaksbr }}</p>
@@ -37,8 +52,12 @@
                             <img class="img-responsive" src="{{ diet.image.url }}">
                         </div>
                         <div class="diet-lead col-md-5">
+                            {% if user == diet.author %}
+                                <a href="{% url 'edit_diet' pk=diet.pk %}">EDIT</a>
+                            {% endif %}
                             <div class="col-md-10">
-                                <h1 class="diet-top-title"><a href="#">{{ diet.name }}</a></h1>
+                                <h1 class="diet-top-title"><a
+                                        href="{% url 'diet_detail' pk=diet.pk %}">{{ diet.name }}</a></h1>
                             </div>
                             <span class="badge">{{ diet.get_score }}</span>
 
@@ -48,7 +67,9 @@
                                 <p>{{ diet.text|linebreaksbr }}</p>
                             </div>
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-primary dropdown-toggle">Find out more</button>
+                                <a href="{% url 'diet_detail' pk=diet.pk %}">
+                                    <button type="button" class="btn btn-info dropdown-toggle">Find out more</button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -64,7 +85,11 @@
                 {% if not diet.image %}
                     <div class="diet-without-thumbnail">
                         <div class="diet-lead col-md-12">
-                            <h1 class="diet-top-title"><a href="#">{{ diet.name }}</a></h1>
+                            {% if user == diet.author %}
+                                <a href="{% url 'edit_diet' pk=diet.pk %}">EDIT</a>
+                            {% endif %}
+                            <h1 class="diet-top-title"><a href="{% url 'diet_detail' pk=diet.pk %}">{{ diet.name }}</a>
+                            </h1>
                             <h5>
                                 by {{ diet.author.first_name }} {{ diet.author.last_name }}, {{ diet.get_pretty_date }}</h5>
                             <div class="diet-lead col-md-12">
@@ -78,8 +103,12 @@
                             <img class="img-responsive" src="{{ diet.image.url }}">
                         </div>
                         <div class="diet-lead col-md-6">
+                            {% if user == diet.author %}
+                                <a href="{% url 'edit_diet' pk=diet.pk %}">EDIT</a>
+                            {% endif %}
                             <div class="col-md-10">
-                                <h1 class="diet-top-title"><a href="#">{{ diet.name }}</a></h1>
+                                <h1 class="diet-top-title"><a
+                                        href="{% url 'diet_detail' pk=diet.pk %}">{{ diet.name }}</a></h1>
                             </div>
                             <span class="badge">{{ diet.get_score }}</span>
 
@@ -101,14 +130,18 @@
         {% for review in reviews %}
             <div class="diet-review col-md-6">
                 <div class="col-md-3">
-                      <p> <img class="img-responsive" src="/media/avatar/no-avatar.png"/></p>
+                    <p><img class="img-responsive" src="/media/avatar/no-avatar.png"/></p>
                 </div>
                 <div class="col-md-9">
+                    {% if user == review.author %}
+                        <a href="{% url 'edit_review' pk=review.pk %}">EDIT</a>
+                    {% endif %}
                     <div class="col-md-10 title">{{ review.title }} </div>
                     <span class="badge">{{ review.rating }}</span>
                     <div class="col-md-12">{{ review.diet.name }}</div>
                     <div class="col-md-12">
-                        <h5> by {{ review.author.first_name }} {{ review.author.last_name }}, {{ review.get_pretty_date }}</h5>
+                        <h5>
+                            by {{ review.author.first_name }} {{ review.author.last_name }}, {{ review.get_pretty_date }}</h5>
                         <p>{{ review.review_text|linebreaksbr }}</p>
                     </div>
                 </div>
