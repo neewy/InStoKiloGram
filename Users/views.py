@@ -23,19 +23,19 @@ from .forms import LoginForm, RegisterForm, AccountForm
 def index(request):
     resp = "<h1>List of latest users</h1><hr>"
     latest_users = User.objects.order_by('-pk')[:100]
-    output = '<br> '.join([u.username for u in latest_users])    
+    output = '<br> '.join([u.username for u in latest_users])
     resp = resp + "<br>" + output + "<hr>"
     return HttpResponse(resp)
 
 
 def customlogout(request):
     if request.user.is_authenticated():
-        logout(request)    
-   
+        logout(request)
+
     return redirect('/')
 
 def customlogin(request):
-    
+
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -46,13 +46,13 @@ def customlogin(request):
 
             the_username = request.POST.get('username', False)
             the_password = request.POST.get('password', False)
-            
+
             if settings.DEBUG:
                 print >>sys.stderr, "Got login and password: "
                 print >>sys.stderr, the_username
                 print >>sys.stderr, the_password
                 print >>sys.stderr, pprint.pprint(form)
-            
+
             try:
                 user = User.objects.get(username=the_username)
 
@@ -64,7 +64,7 @@ def customlogin(request):
                 else:
                     # Return an 'invalid password' error message.
                     form.invalid = 2
-                        
+
             except Exception:
                 # Return an 'invalid login' error message.
                 form.invalid=1
@@ -76,7 +76,7 @@ def customlogin(request):
         form = LoginForm()
 
     return render(request, 'registration/login.html', {'form' : form})
-    
+
 def customregister(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -249,6 +249,7 @@ def vkoauth(request):
 
     return redirect(auth_url)
 
+
 def vkoauthcb(request):
     code  = request.GET.get('code', False)
     error_description = request.GET.get('error_description')
@@ -257,7 +258,7 @@ def vkoauthcb(request):
         return redirect('/vklogin/?error_description=' + error_description)
 
     redirect_url = settings.VK_REDIR
-    
+
     auth_url = "https://oauth.vk.com/access_token?client_id=" + str(settings.VK_CLIENT_ID) + "&scope=" + settings.VK_SCOPE
     auth_url = auth_url + "&client_secret=" + str(settings.VK_CLIENT_SECRET)
     auth_url = auth_url + "&redirect_uri=" + urllib.pathname2url(redirect_url)
@@ -275,7 +276,7 @@ def vkoauthcb(request):
         if not email:
             data = {'error_description' : "This VK user does not have an email"}
             return render(request, 'registration/vklogin.html', data)
-        
+
         vk = vkontakte.API(token=access_token)
         profiles = vk.getProfiles(uids=str(user_id), fields='photo_100,nickname')
         profile = profiles[0]
@@ -290,14 +291,14 @@ def vkoauthcb(request):
                 existing = 1
         except Exception:
             existing = 0
-            
+
         if (not existing):
             try:
                 m = re.match(r"(.+)\@", email)
                 username = m.group(1)
                 print >>sys.stderr, "Creating new user"
                 print >>sys.stderr, pprint.pprint( user )
-                
+
                 password = str(uuid.uuid4().get_hex().upper()[0:16])
                 user = User( username = username, password = password, email = email, first_name = profile['first_name'], last_name = profile['last_name'] )
                 user.nickname = username

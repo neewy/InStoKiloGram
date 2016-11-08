@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form enctype="multipart/form-data" method="post" action="">
+{% csrf_token %}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ </head>
+ <body>
+
+  <div id="container" style = "width:85%; margin: auto">
+      <div class="box">
+          <div id="sidebar", style="float:right">
+              <ul class="nav nav-pills nav-stacked">
+                <li><a href="/weight/">My weight</a></li>
+                <li><a href="/accounts/profile/">My profile</a></li>
+                <li><a href="/accounts/profile/fooddiary/">My Food Diary</a></li>
+               </ul>
+          </div>
+           <div style = "float:left">
+                <div class="col-md-12">
+                    {% block pages %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+  </div>
+
+</body>
+</form>
+
+<script>
+$(function(){
+  $('ul.nav.nav-pills li a').click(function() {
+    // удаляем класс .active у всех кнопок
+    $('ul.nav.nav-pills li').each(function() {
+      $(this).removeClass('active');
+    });
+    //добавляем для нажатой
+    $(this).parent().addClass('active');
+  });
+});
+</script>
+{% endblock %}

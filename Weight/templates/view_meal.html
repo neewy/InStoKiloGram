@@ -1,0 +1,49 @@
+{% extends "My_profile.html" %}
+{% block pages %}
+<h1>My Food Diary</h1>
+
+{% if user.is_authenticated %}
+
+<a href="/accounts/profile/fooddiary/add/"><img src="/static/img/Food.png" alt="Add meal">Add meal</a><br>
+
+<ul>
+<h3>Breakfast</h3>
+{% for meal in mds %}
+    {% if meal.mealtime == 'Breakfast' %}
+        <li>{{meal.meal}} - {{meal.calories}} kal</li>
+    {% endif %}
+{% endfor %}
+
+<h3>Lunch</h3>
+{% for meal in mds %}
+    {% if meal.mealtime == 'Lunch' %}
+        <li>{{meal.meal}} - {{meal.calories}} kal</li>
+    {% endif %}
+{% endfor %}
+
+<h3>Dinner</h3>
+{% for meal in mds %}
+    {% if meal.mealtime == 'Dinner' %}
+        <li>{{meal.meal}} - {{meal.calories}} kal</li>
+    {% endif %}
+{% endfor %}
+
+<h3>Snacks/Other</h3>
+{% for meal in mds %}
+    {% if meal.mealtime == 'Snacks' %}
+        <li>{{meal.meal}} - {{meal.calories}} kal</li>
+    {% endif %}
+{% endfor %}
+</ul>
+
+
+
+{% else %}
+
+Please <a href="/login/">login</a> first to view weight history.<br/><br/>
+
+{% endif %}
+
+
+
+{% endblock %}
