@@ -4,50 +4,19 @@
 <form enctype="multipart/form-data" method="post" action="">
 {% csrf_token %}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <style type="text/css">
-   #container {
-       overflow:hidden;
-       width: 80%; /* Ширина макета */
-       heigh: 100% auto;
-       margin: 0 auto; /* Выравниваем по центру */
-       background: #f0f0f0;
-   }
-    .box{white-space:nowrap}
-    .box div{width:90%;}
-
-   #header {
-    background: #8fa09b; /* Цвет фона */
-    font-size: 20pt; /* Размер текста */
-    color: #edeed5; /* Цвет текста */
-    padding: 15px; /* Отступы вокруг текста */
-   }
-   #content {
-    margin-right: 140px; /* Отступ справа */
-    padding: 10px; /* Поля вокруг текста */
-    background: #fff; /* Цвет фона левой колонки */
-   }
-   #content p {
-    margin-top: 0.3em /* Отступ сверху */
-   }
-   #sidebar {
-    float: right; /* Обтекание по левому краю */
-    width: 120px; /* Ширина правой колонки */
-    padding: 10px; /* Отступы вокруг текста */
-    background: #cbc0b7; /* Цвет фона */
-   }
-   #sidebar a {
-    color: #752641; /* Цвет ссылок */
-   }
-  </style>
  </head>
  <body>
-  <div id="container" class = "display:inline;">
+
+  <div id="container" style = "width:85%; margin: auto">
       <div class="box">
-          <div id="sidebar">
-              <p><a href="/weight/">Weight</a></p>
-              <p><a href="/accounts/profile/">Profile</a></p>
+          <div id="sidebar", style="float:right">
+              <ul class="nav nav-pills nav-stacked">
+                <li><a href="/weight/">My weight</a></li>
+                <li><a href="/accounts/profile/">My profile</a></li>
+                <li><a href="/accounts/profile/fooddiary/">My Food Diary</a></li>
+               </ul>
           </div>
-           <div class="content container">
+           <div style = "float:left">
                 <div class="col-md-12">
                     {% block pages %}
                     {% endblock %}
@@ -59,8 +28,16 @@
 </body>
 </form>
 
-
-
-
-
+<script>
+$(function(){
+  $('ul.nav.nav-pills li a').click(function() {
+    // удаляем класс .active у всех кнопок
+    $('ul.nav.nav-pills li').each(function() {
+      $(this).removeClass('active');
+    });
+    //добавляем для нажатой
+    $(this).parent().addClass('active');
+  });
+});
+</script>
 {% endblock %}
