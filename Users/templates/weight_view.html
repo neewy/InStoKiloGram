@@ -1,0 +1,28 @@
+{% extends "My_profile.html" %}
+{% block pages %}
+<h1>Weight History</h1>
+
+{% if user.is_authenticated %}
+          
+<a href="/weight/add"><img src="/static/img/addweight.jpg" alt="Add weight">Add weight</a>
+
+<hr>
+
+<ul>
+{% for wd in wds %}
+    <li>{{wd.date}} - 
+    <form style="display: inline;"  action="/weight/delete/" method="post">{% csrf_token %}
+        <input type=hidden name="id" value="{{wd.dateraw}}">
+        <button class="glyphicon glyphicon-trash" type="submit"></button>
+    </form>
+    - {{wd.weight}} kg 
+    </li>
+{% endfor %}
+</ul>
+
+{% else %}
+
+Please <a href="/login/">login</a> first to view weight history.<br/><br/>
+
+{% endif %}
+{% endblock %}

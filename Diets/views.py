@@ -24,17 +24,18 @@ def diet_detail(request, pk):
 def new_diet(request):
     if request.method == "POST":
         form = DietForm(request.POST, request.FILES)
-        if form.is_valid():
-            diet = form.save(commit=False)
-            diet.author = request.user
-            diet.text = request.POST['text']
-            diet.name = request.POST['name']
-            diet.published_date = timezone.now()
-            diet.image = form.cleaned_data['image']
-            diet.save()
-            for recipe in request.POST.get('recipes', False):
-                diet.recipes.add(recipe)
-            return redirect('diet_detail', pk=diet.pk)
+        if request.user.has_perm('diet.add_diet'):
+            if form.is_valid():
+                diet = form.save(commit=False)
+                diet.author = request.user
+                diet.text = request.POST['text']
+                diet.name = request.POST['name']
+                diet.published_date = timezone.now()
+                diet.image = form.cleaned_data['image']
+                diet.save()
+                for recipe in request.POST.get('recipes', False):
+                    diet.recipes.add(recipe)
+                return redirect('diet_detail', pk=diet.pk)
     else:
         form = DietForm()
     return render(request, 'diet/new_diet.html', {'form': form})
