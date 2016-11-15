@@ -12,7 +12,7 @@ al_multiplier = {
 
 def calculatecalories(gender, start_weight, height, birth_date, activity_level):
     age = calculate_age(birth_date)
-    BOO = 10 * start_weight + 6.25 * height - 5 * age + gendercoeff(gender)
+    BOO = 10 * float(start_weight) + 6.25 * float(height) - 5 * float(age) + gendercoeff(gender)
     calories = BOO * al_multiplier[activity_level]
 
     return calories
@@ -20,9 +20,9 @@ def calculatecalories(gender, start_weight, height, birth_date, activity_level):
 
 def gendercoeff(gender):
     if gender == 'M':
-        return 5
+        return 5.0
     else:
-        return -161
+        return -161.0
 
 
 def calculate_age(born):

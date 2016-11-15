@@ -29,8 +29,8 @@ def wadd(request):
 
 def wview(request):
     if settings.DEBUG:
-        print >>sys.stderr, 'view weight'
-    
+        print >> sys.stderr, 'view weight'
+
     whistory = Weight.objects.filter(user_id=request.user.id).order_by('-id')[:100]
 
     wds = []
@@ -43,8 +43,8 @@ def wview(request):
 
 def wdelete(request):
     if settings.DEBUG:
-        print >>sys.stderr, 'delete weight'
-    
+        print >> sys.stderr, 'delete weight'
+
     if request.method == 'POST':
         try:
             id = int(request.POST.get('id', False))
@@ -59,17 +59,22 @@ def wdelete(request):
 def mealstat(request):
     mealhistory = FoodDiary.objects.filter(user_id=request.user.id, date=timezone.now()).order_by('-id')[:100]
 
+    current_user = request.user
+
     mds = []
 
+    total_rdi = current_user.calories
+    left_rdi = total_rdi
     for meal in mealhistory:
         mds.extend([{'meal': meal.food, 'date': meal.date.strftime("%Y-%m-%d %H:%M:%S"), 'calories': meal.calories,
                      'dateraw': meal.id, 'mealtime': meal.mealtime}])
+        left_rdi -= meal.calories
 
-    return render(request, 'view_meal.html', {'mds': mds, 'stat': 1})
+    return render(request, 'view_meal.html',
+                  {'mds': mds, 'stat': 1, 'total_rdi': round(total_rdi), 'left_rdi': round(left_rdi)})
 
 
 def mealadd(request):
-
     now = datetime.datetime.now()
 
     if request.method == 'POST':
@@ -89,7 +94,6 @@ def mealadd(request):
             except:
                 return render(request, 'add_meal.html',
                               {'form': form, 'now': now.strftime("%Y-%m-%d %H:%M:%S"), 'invalid': 1})
-
 
     form = AddMealForm()
 

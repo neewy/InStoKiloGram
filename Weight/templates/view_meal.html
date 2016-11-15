@@ -4,38 +4,62 @@
 
 {% if user.is_authenticated %}
 
-<a href="/accounts/profile/fooddiary/add/"><img src="/static/img/Food.png" alt="Add meal">Add meal</a><br>
+   <div id="container" style = "width:100%; heigh:450; margin: auto">
+     <div class="box">
+          <div id="blocks_in_line", style="float:left; width:50%; font-family:'DIN Alternate'; font-size:20pt;">
+                RDI: {{ total_rdi }}
+          </div>
+         <div style = "float:left; width:50%; font-family:'DIN Alternate'; font-size:20pt;">
+                Calories left:
+             {% if left_rdi  < 0 %}
+                 <span style="color:red">{{ left_rdi }}</span>
+             {% else %}
+                 <span style="color:green">{{ left_rdi }}</span>
+             {% endif %}
+            </div>
+        </div>
+  </div>
 
+    <div>
+    <a href="/accounts/profile/fooddiary/add/"><img src="/static/img/Food.png" alt="Add meal">Add meal</a><br>
+ </div>
+
+
+<div id="container" style = "width:85%; margin: auto";>
 <ul>
 <h3>Breakfast</h3>
 {% for meal in mds %}
     {% if meal.mealtime == 'Breakfast' %}
-        <li>{{meal.meal}} - {{meal.calories}} kal</li>
+        <li>{{meal.meal}} - {{meal.calories}} cal</li>
     {% endif %}
 {% endfor %}
 
 <h3>Lunch</h3>
 {% for meal in mds %}
     {% if meal.mealtime == 'Lunch' %}
-        <li>{{meal.meal}} - {{meal.calories}} kal</li>
+        <li>{{meal.meal}} - {{meal.calories}} cal</li>
     {% endif %}
 {% endfor %}
 
 <h3>Dinner</h3>
 {% for meal in mds %}
     {% if meal.mealtime == 'Dinner' %}
-        <li>{{meal.meal}} - {{meal.calories}} kal</li>
+        <li>{{meal.meal}} - {{meal.calories}} cal</li>
     {% endif %}
 {% endfor %}
 
 <h3>Snacks/Other</h3>
 {% for meal in mds %}
     {% if meal.mealtime == 'Snacks' %}
-        <li>{{meal.meal}} - {{meal.calories}} kal</li>
+        <li>{{meal.meal}} - {{meal.calories}} cal</li>
     {% endif %}
 {% endfor %}
 </ul>
+</div>
 
+
+    <h2>Day Summary:</h2>
+    <div id="chart_div"></div>
 
 
 {% else %}
@@ -43,6 +67,41 @@
 Please <a href="/login/">login</a> first to view weight history.<br/><br/>
 
 {% endif %}
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Calories left (cal)', {{ left_rdi }}],
+          ['Calories I ate (cal)', {{ total_rdi }}-{{ left_rdi }}],
+        ]);
+
+        // Set chart options
+        var options = {pieSliceText: 'value',
+                        legend: {position: 'top'},
+                        'width':700,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
 
 
 

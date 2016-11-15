@@ -16,6 +16,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
 
+from Users.calculations import calculatecalories
 from Users.models import User
 from .forms import LoginForm, RegisterForm, AccountForm
 
@@ -187,6 +188,7 @@ def accountsprofile(request):
                 user.activity_level = activity_level
                 user.diet_goals = diet_goals
                 user.goal_weight = goal_weight
+                user.calories = calculatecalories(gender, start_weight, height, birth_date, activity_level)
 
                 file_name = 'avatar/' + current_user.username + '/' + image.name
                 path = default_storage.save(file_name, ContentFile(image.read()))

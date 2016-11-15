@@ -70,3 +70,4 @@ class User(AbstractUser):
                                   choices=goals_choices,
                                   default='U'
                                   )
+    calories = models.FloatField(default=0)
