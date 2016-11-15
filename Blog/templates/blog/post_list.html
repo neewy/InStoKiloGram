@@ -3,7 +3,25 @@
 {% block content %}
 
     <div class="slider-wrapper col-md-12">
-            <img src="/static/img/ISKG_alternative.jpg" width="63%">
+        <div class="col-md-7" id="slider-placeholder">
+            {% for post in posts %}
+                <div class="single-slide">
+                    <div class="slide-title">
+                        <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+                    </div>
+                    <img class="slider-post-image" src="{{ post.image.url }}"/>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-5" id="slider-selector">
+            {% for post in posts %}
+                <div class="single-selector">
+                    <h5 class="slide-caption">{{ post.title }}</h5>
+                    <h5 class="slide-under-caption">{% lorem 2 w random %}</h5>
+                </div>
+            {% endfor %}
+        </div>
+
     </div>
 
     {% for post in posts %}
@@ -51,4 +69,28 @@
     </ul>
 </nav>
 
+<script>
+    $(document).ready(function () {
+        $('#slider-placeholder').slick({
+            infinite: true,
+            speed: 500,
+            arrows: false,
+            fade: true,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        });
+
+        $('#slider-selector').slick({
+            infinite: true,
+            vertical: true,
+            asNavFor: '#slider-placeholder',
+            speed: 500,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            focusOnSelect: true
+        });
+    });
+
+
+</script>
 {% endblock content %}
