@@ -7,30 +7,19 @@
 <a href="/weight/add"><img src="/static/img/addweight.jpg" alt="Add weight">Add weight</a><br>
 <hr>
 
-{% if stat %}
-
 <div id="myfirstchart" style="height: 250px; width:800px"></div>
-
-{% else %}
-
-<a href="/weight/stat">Graph</a><br>
-
-{% endif %}
 
 <hr>
 
+<div >
+
 <ul>
 {% for wd in wds %}
-    <li>{{wd.date}} - 
-    <form style="display: inline;"  action="/weight/delete/" method="post">{% csrf_token %}
-        <input type=hidden name="id" value="{{wd.dateraw}}">
-        <button class="glyphicon glyphicon-trash" type="submit"></button>
-    </form>
-    - {{wd.weight}} kg 
-    </li>
+    <li>{{wd.date}} - {{wd.weight}} kg - <form style="display: inline;" action="/weight/delete/" method="post">{% csrf_token %} <input type=hidden name="id" value="{{wd.id}}">  <button class="glyphicon glyphicon-trash" type="submit"></button> </form></li>
 {% endfor %}
 </ul>
 
+</div>
 
 
 {% else %}

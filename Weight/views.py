@@ -8,7 +8,7 @@ import datetime
 import sys
 
 from .forms import AddWeightForm, AddMealForm
-
+from django.conf import settings
 
 def wadd(request):
     form = AddWeightForm()
@@ -28,19 +28,23 @@ def wadd(request):
 
 
 def wview(request):
+    if settings.DEBUG:
+        print >>sys.stderr, 'view weight'
+    
     whistory = Weight.objects.filter(user_id=request.user.id).order_by('-id')[:100]
-
-    #    output = '<br> '.join([str(w.date) + str(w.weight) for w in whistory])
 
     wds = []
 
     for w in whistory:
-        wds.extend([{'date': w.date.strftime("%Y-%m-%d %H:%M:%S"), 'weight': str(w.weight), 'dateraw': w.id}])
+        wds.extend([{'date': w.date.strftime("%Y-%m-%d %H:%M:%S"), 'weight': str(w.weight), 'id': w.id}])
 
     return render(request, 'view.html', {'wds': wds})
 
 
 def wdelete(request):
+    if settings.DEBUG:
+        print >>sys.stderr, 'delete weight'
+    
     if request.method == 'POST':
         try:
             id = int(request.POST.get('id', False))
@@ -50,17 +54,6 @@ def wdelete(request):
             1
 
     return redirect('/weight/')
-
-
-def wstat(request):
-    whistory = Weight.objects.filter(user_id=request.user.id).order_by('-id')[:100]
-
-    wds = []
-
-    for w in whistory:
-        wds.extend([{'date': w.date.strftime("%Y-%m-%d %H:%M:%S"), 'weight': str(w.weight), 'dateraw': w.id}])
-
-    return render(request, 'view.html', {'wds': wds, 'stat': 1})
 
 
 def mealstat(request):

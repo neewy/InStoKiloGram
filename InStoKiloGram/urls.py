@@ -22,7 +22,6 @@ from Weight import views as wviews
 urlpatterns = [
     url(r'^weight/add/$',wviews.wadd, name='wadd'),
     url(r'^weight/delete/$',wviews.wdelete, name='wdelete'),
-    url(r'^weight/stat/$',wviews.wstat, name='wstat'),
     url(r'^accounts/profile/fooddiary/$',wviews.mealstat, name='mealstat'),
     url(r'^accounts/profile/fooddiary/add/$',wviews.mealadd, name='mealadd'),
     url(r'^weight/$',wviews.wview, name='wview'),
