@@ -1,14 +1,13 @@
 from django.shortcuts import render
-
-from django.utils import timezone
 from Weight.models import Weight, FoodDiary
 from django.shortcuts import redirect
 import datetime
 
 import sys
 
-from .forms import AddWeightForm, AddMealForm
+from .forms import AddWeightForm, AddMealForm, Meal
 from django.conf import settings
+
 
 def wadd(request):
     form = AddWeightForm()
@@ -57,7 +56,7 @@ def wdelete(request):
 
 
 def mealstat(request):
-    mealhistory = FoodDiary.objects.filter(user_id=request.user.id, date=timezone.now()).order_by('-id')[:100]
+    date_act = datetime.datetime.now()
 
     current_user = request.user
 
@@ -65,13 +64,40 @@ def mealstat(request):
 
     total_rdi = current_user.calories
     left_rdi = total_rdi
-    for meal in mealhistory:
-        mds.extend([{'meal': meal.food, 'date': meal.date.strftime("%Y-%m-%d %H:%M:%S"), 'calories': meal.calories,
-                     'dateraw': meal.id, 'mealtime': meal.mealtime}])
-        left_rdi -= meal.calories
+
+    if request.method == 'POST':
+        form = Meal(request.POST, request.FILES)
+        for error in form.errors:
+            print>> sys.stderr, error
+        if form.is_valid():
+            date = form.cleaned_data.get('date', False)
+            print>> sys.stderr, date
+
+            mealhistory = FoodDiary.objects.filter(user_id=request.user.id, date=date).order_by('-id')[:100]
+
+            print>> sys.stderr, mealhistory
+
+            for meal in mealhistory:
+                mds.extend(
+                    [{'meal': meal.food, 'date': meal.date.strftime("%Y-%m-%d %H:%M:%S"), 'calories': meal.calories,
+                      'dateraw': meal.id, 'mealtime': meal.mealtime}])
+                print>> sys.stderr, meal.food
+                left_rdi -= meal.calories
+
+            date_act = date
+    else:
+        mealhistory = FoodDiary.objects.filter(user_id=request.user.id, date=date_act).order_by('-id')[:100]
+        for meal in mealhistory:
+            mds.extend(
+                [{'meal': meal.food, 'date': meal.date.strftime("%Y-%m-%d %H:%M:%S"), 'calories': meal.calories,
+                  'dateraw': meal.id, 'mealtime': meal.mealtime}])
+            left_rdi -= meal.calories
+
+    data = {'date': date_act}
+    form = Meal(data)
 
     return render(request, 'view_meal.html',
-                  {'mds': mds, 'stat': 1, 'total_rdi': round(total_rdi), 'left_rdi': round(left_rdi)})
+                  {'form': form, 'mds': mds, 'stat': 1, 'total_rdi': round(total_rdi), 'left_rdi': round(left_rdi)})
 
 
 def mealadd(request):
@@ -90,6 +116,7 @@ def mealadd(request):
                 food = FoodDiary(date=date, user_id=request.user.id, food=meal, calories=calories, mealtime=mealtime)
                 food.save()
                 return redirect('/accounts/profile/fooddiary/')
+
 
             except:
                 return render(request, 'add_meal.html',

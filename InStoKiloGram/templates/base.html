@@ -77,9 +77,9 @@
                             <div style="position: relative;  width: 100px; height: 100px; overflow: hidden; display: inline-block;">
                                 <div style ="position: absolute;   left: 50%;   top: 50%;   min-height: 100%;  min-width: 100%;   height: auto;   width: auto;   transform: translate(-50%, -50%);">
                                     {% if user.photourl %}
-                                        <p> <img src="{{ user.photourl }}" align="middle" alt="My image"/></p>
+                                        <a href="/accounts/profile/"> <img src="{{ user.photourl }}" align="middle" alt="My image"/></a>
                                     {%else %}
-                                        <p> <img src="/media/avatar/no-avatar.png" align="middle" alt="Photo"/></p>
+                                        <a href="/accounts/profile/"> <img src="/media/avatar/no-avatar.png" align="middle" alt="Photo"/></a>
                                     {% endif %}
                                 </div>
                             </div>

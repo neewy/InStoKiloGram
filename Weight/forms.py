@@ -1,5 +1,11 @@
 from django import forms
 from django.utils import timezone
+from django.utils.html import conditional_escape as esc
+from django.utils.safestring import mark_safe
+from itertools import groupby
+from calendar import HTMLCalendar, monthrange
+
+
 
 
 class AddWeightForm(forms.Form):
@@ -23,3 +29,7 @@ class AddMealForm(forms.Form):
     meal = forms.CharField(label='Meal', max_length=10)
     calories = forms.FloatField(label='Calories (kal)')
     mealtime = forms.ChoiceField(label='Time:', widget=forms.Select, choices=mealtime_choices)
+
+class Meal(forms.Form):
+    date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=year_choices, empty_label=(
+        "Choose Year", "Choose Month", "Choose Day")), initial=timezone.now())

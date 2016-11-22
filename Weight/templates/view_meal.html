@@ -3,13 +3,20 @@
 <h1>My Food Diary</h1>
 
 {% if user.is_authenticated %}
+<form method="post" action="/accounts/profile/fooddiary/">
 
+{% csrf_token %}
+
+{{ form}}
+
+<input type="submit" value="Enter date" id="mealstat" / class="clearfix">
+</form>
    <div id="container" style = "width:100%; heigh:450; margin: auto">
      <div class="box">
-          <div id="blocks_in_line", style="float:left; width:50%; font-family:'DIN Alternate'; font-size:20pt;">
+          <div style="float:left; width:100%; font-family:'DIN Alternate'; font-size:20pt;">
                 RDI: {{ total_rdi }}
           </div>
-         <div style = "float:left; width:50%; font-family:'DIN Alternate'; font-size:20pt;">
+         <div style = "float:left; width:100%; font-family:'DIN Alternate'; font-size:20pt;">
                 Calories left:
              {% if left_rdi  < 0 %}
                  <span style="color:red">{{ left_rdi }}</span>
@@ -17,12 +24,13 @@
                  <span style="color:green">{{ left_rdi }}</span>
              {% endif %}
             </div>
+         <div style = "float:left; width:100%; font-family:'DIN Alternate'; font-size:20pt;">
+            <a href="/accounts/profile/fooddiary/add/"><img src="/static/img/Food.png" alt="Add meal">Add meal</a><br>
+        </div>
         </div>
   </div>
 
-    <div>
-    <a href="/accounts/profile/fooddiary/add/"><img src="/static/img/Food.png" alt="Add meal">Add meal</a><br>
- </div>
+
 
 
 <div id="container" style = "width:85%; margin: auto";>
@@ -60,7 +68,6 @@
 
     <h2>Day Summary:</h2>
     <div id="chart_div"></div>
-
 
 {% else %}
 
