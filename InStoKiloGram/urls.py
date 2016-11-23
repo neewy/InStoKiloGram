@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^weight/delete/$',wviews.wdelete, name='wdelete'),
     url(r'^accounts/profile/fooddiary/$',wviews.mealstat, name='mealstat'),
     url(r'^accounts/profile/fooddiary/add/$',wviews.mealadd, name='mealadd'),
+    url(r'^accounts/profile/fooddiary/delete/$',wviews.mealdelete, name='mealdelete'),
     url(r'^weight/$',wviews.wview, name='wview'),
     url(r'^admin/', admin.site.urls),
     url(r'', include('Blog.urls')),

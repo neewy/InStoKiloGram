@@ -30,41 +30,61 @@
         </div>
   </div>
 
-
-
-
 <div id="container" style = "width:85%; margin: auto";>
 <ul>
 <h3>Breakfast</h3>
 {% for meal in mds %}
     {% if meal.mealtime == 'Breakfast' %}
-        <li>{{meal.meal}} - {{meal.calories}} cal</li>
+        <li>{{meal.meal}} - {{meal.calories}} cal
+            <form style="display: inline;" action="/accounts/profile/fooddiary/delete/" method="post">
+                {% csrf_token %}
+                <input type=hidden name="dateraw" value="{{meal.dateraw}}">
+                <button class="glyphicon glyphicon-trash" type="submit"></button>
+            </form>
+        </li>
     {% endif %}
 {% endfor %}
 
 <h3>Lunch</h3>
 {% for meal in mds %}
     {% if meal.mealtime == 'Lunch' %}
-        <li>{{meal.meal}} - {{meal.calories}} cal</li>
+        <li>{{meal.meal}} - {{meal.calories}} cal
+            <form style="display: inline;" action="/accounts/profile/fooddiary/delete/" method="post">
+                {% csrf_token %}
+                <input type=hidden name="dateraw" value="{{meal.dateraw}}">
+                <button class="glyphicon glyphicon-trash" type="submit"></button>
+            </form>
+        </li>
     {% endif %}
 {% endfor %}
 
 <h3>Dinner</h3>
 {% for meal in mds %}
     {% if meal.mealtime == 'Dinner' %}
-        <li>{{meal.meal}} - {{meal.calories}} cal</li>
+       <li>{{meal.meal}} - {{meal.calories}} cal
+            <form style="display: inline;" action="/accounts/profile/fooddiary/delete/" method="post">
+                {% csrf_token %}
+                <input type=hidden name="dateraw" value="{{meal.dateraw}}">
+                <button class="glyphicon glyphicon-trash" type="submit"></button>
+            </form>
+        </li>
     {% endif %}
 {% endfor %}
 
 <h3>Snacks/Other</h3>
 {% for meal in mds %}
     {% if meal.mealtime == 'Snacks' %}
-        <li>{{meal.meal}} - {{meal.calories}} cal</li>
+        <li>{{meal.meal}} - {{meal.calories}} cal
+            <form style="display: inline;" action="/accounts/profile/fooddiary/delete/" method="post">
+                {% csrf_token %}
+                <input type=hidden name="dateraw" value="{{meal.dateraw}}">
+                <button class="glyphicon glyphicon-trash" type="submit"></button>
+            </form>
+        </li>
     {% endif %}
 {% endfor %}
 </ul>
 </div>
-
 
     <h2>Day Summary:</h2>
     <div id="chart_div"></div>
@@ -109,7 +129,6 @@ Please <a href="/login/">login</a> first to view weight history.<br/><br/>
         chart.draw(data, options);
       }
     </script>
-
 
 
 {% endblock %}

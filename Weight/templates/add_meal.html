@@ -18,7 +18,52 @@
 
 <input type="submit" value="Enter data" id="mealadd" / class="clearfix">
 </form>
-    
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Autocomplete - Default functionality</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    var availableTags = [
+        {% for m in meal_all %}
+            "{{ m.meal }}",
+        {% endfor %}
+    ];
+    $( "#id_meal" ).autocomplete({
+      source: availableTags
+    });
+
+
+  $('#id_meal').bind('input', function(){
+  console.log($('#id_meal').val());
+
+      {% for m in meal_all %}
+          console.log('this actually works {{ m.meal }}');
+          if ('{{ m.meal }}' == $('#id_meal').val()) {
+              console.log('this actually works');
+              $("#id_calories").val({{ m.calories}});
+          }
+      {% endfor %}
+  });
+
+  $("#id_calories").focus(function(){
+  console.log($('#id_meal').val());
+
+      {% for m in meal_all %}
+          console.log('this actually works {{ m.meal }}');
+          if ('{{ m.meal }}' == $('#id_meal').val()) {
+              console.log('this actually works');
+              $("#id_calories").val({{ m.calories}});
+          }
+      {% endfor %}
+  });
+
+  } );
+  </script>
+
 <script type="text/javascript">
 document.getElementById('mealadd').focus();
 </script>

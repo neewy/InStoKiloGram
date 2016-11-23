@@ -103,6 +103,14 @@ def mealstat(request):
 def mealadd(request):
     now = datetime.datetime.now()
 
+    meal = FoodDiary.objects.distinct('food', 'calories')
+    meal_all = []
+    for m in meal:
+        meal_all.extend(
+            [{'meal': m.food, 'calories': m.calories}])
+    print >> sys.stderr, "Here~!"
+    print >> sys.stderr, meal_all
+
     if request.method == 'POST':
         form = AddMealForm(request.POST, request.FILES)
         for error in form.errors:
@@ -124,4 +132,24 @@ def mealadd(request):
 
     form = AddMealForm()
 
-    return render(request, 'add_meal.html', {'form': form, 'now': now.strftime("%Y-%m-%d %H:%M:%S")})
+    return render(request, 'add_meal.html', {'form': form,'meal_all': meal_all, 'now': now.strftime("%Y-%m-%d %H:%M:%S")})
+
+
+def mealdelete(request):
+    if settings.DEBUG:
+        print >> sys.stderr, 'delete meal'
+
+    if request.method == 'POST':
+        form = Meal(request.POST, request.FILES)
+        for error in form.errors:
+            print>> sys.stderr, error
+        try:
+            id = int(request.POST.get('dateraw', False))
+            print >> sys.stderr, id
+            user_id = request.user.id
+            FoodDiary.objects.filter(user_id=user_id, id = id).delete()
+        except:
+            print>> sys.stderr, "exception"
+            1
+
+    return redirect('/accounts/profile/fooddiary/')
