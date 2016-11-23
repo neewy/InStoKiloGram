@@ -1,0 +1,25 @@
+{% extends "blog/../base.html" %}
+{% block content %}
+
+
+<h1>Top users</h1>
+
+
+<ul>
+{% for u in us %}
+    <li>
+        
+    <img src="{{u.photourl}}"> <strong>{{ u.first }}  {{ u.last }} </strong>
+        
+        
+        - start_weight <strong>{{ u.start_weight }}</strong>
+        - current_weight <strong>{{ u.current_weight }}</strong>
+        - goal_weight     <strong>{{ u.goal_weight }}</strong>
+        
+        
+    </li>
+{% endfor %}
+</ul>
+
+
+{% endblock %}

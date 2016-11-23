@@ -2,6 +2,11 @@
 
 {% block content %}
 
+{% autoescape off %}
+{% load poll_tags %}
+{% poll %}
+{% endautoescape %}
+
     <div class="slider-wrapper col-md-12">
         <div class="col-md-7" id="slider-placeholder">
             {% for post in posts %}

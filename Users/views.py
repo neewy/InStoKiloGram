@@ -24,6 +24,28 @@ from .forms import LoginForm, RegisterForm, AccountForm
 def index(request):
     resp = "<h1>List of latest users</h1><hr>"
     latest_users = User.objects.order_by('-pk')[:100]
+
+    us = []
+
+    for u in latest_users:
+        pu = u.photourl
+        
+        if (pu and not pu.startswith('http')):
+            pu = settings.DOMAIN + '/' + pu
+        
+        if pu:
+            us.extend([{'first': u.first_name, 'last': u.last_name, 'id': u.id, 'photourl':pu,
+                        
+                        'start_weight':u.start_weight,
+                        'current_weight':u.current_weight,
+                        'goal_weight': u.goal_weight                       
+                        } ])
+            
+    return render(request, 'allusers.html', {'us':us})
+
+def index_old(request):
+    resp = "<h1>List of latest users</h1><hr>"
+    latest_users = User.objects.order_by('-pk')[:100]
     output = '<br> '.join([u.username for u in latest_users])
     resp = resp + "<br>" + output + "<hr>"
     return HttpResponse(resp)
